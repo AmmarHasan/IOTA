@@ -1,0 +1,135 @@
+﻿@model InteractiveLearning.Models.CreateTest
+@{
+    ViewBag.Title = "Section Details";
+}
+<style>
+.greenbck
+{
+    background:#0c5a55;
+    border:1px solid #00544e;
+}
+.movie-list thead th,
+.movie-list tbody tr:last-child {
+    border-bottom: 1px solid #d6d6d6; /* non-RGBA fallback */
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    color:#0c5a55;
+}
+.movie-list tbody th,
+.movie-list tbody td {
+    border-bottom: 1px solid #e6e6e6; /* non-RGBA fallback  */
+    border-bottom: 1px solid rgba(0,0,0,.05);
+}
+.movie-list tbody tr:last-child th,
+.movie-list tbody tr:last-child td {
+    border-bottom: 0;
+}
+.movie-list tbody tr:nth-child(odd) td,
+.movie-list tbody tr:nth-child(odd) th {
+    background-color: #eeeeee; /* non-RGBA fallback  */
+    background-color: rgba(0,0,0,.04);
+}
+#movie-table-custom
+{
+    width:100%;
+}
+
+</style>
+ @Html.Partial("Shared_Test")
+<p style="color:Red;" id="alert_err">
+ </p>
+
+@using (@Html.BeginForm("SecDetails", "Test", FormMethod.Post, new { data_ajax = "false" }))
+{
+    @Html.HiddenFor(m => m.secquesCount)
+    @Html.HiddenFor(m => m.testId)
+   
+    @Html.HiddenFor(m => m.noS)
+    @Html.ValidationSummary(true)
+     <ul data-role="listview" data-inset="true">
+       <li data-role="list-divider" class="greenbck">Section Details</li>
+   <li>
+    <table data-role="table" id="movie-table-custom" data-mode="reflow" class="movie-list ui-responsive" style="clear: both;">
+  <thead>
+    <tr>
+      <th data-priority="2" style="width:10%">S.No</th>
+    
+      <th data-priority="1" style="width:60%">Section Title</th>
+      <th data-priority="2" style="width:30%">Max.Questions To Display</th>
+     
+    </tr>
+  </thead>
+  <tbody>
+
+       @for (int i = 0; i < Model.noS; i++)
+       {
+          <tr>
+          <td style="text-align:center">@(i + 1)
+          </td>
+          <td>	
+             @Html.TextBoxFor(m => m.sec[i], new { type = "text", required = "true", maxlength = "50" })
+     
+          </td>
+	      <td>
+                 <input type = "number" min = "1" max = "999" validate = "validate" id = "sec_@i"/>
+     
+         </td>
+         </tr>
+       }
+       </tbody>
+   </table>
+   </li>
+    <li>
+       <div  style="text-align:right;">
+       <button type="submit"  data-role="button" data-mini="true" data-inline="true" data-theme="f" id="btnSubmit">Create Sections</button>
+       </div>
+       </li>
+     </ul>
+}
+<script type="text/javascript">
+
+ $("#btnSubmit").live("click", function () {
+        var errors = [];
+          var checked = [];
+      
+        var flag=0;
+        i=0;
+        var limit =@Model.noS;
+        for (i = 0; i < limit; i++) { 
+           title = $("#sQ_"+i+"__name").val();
+           if (!/^[A-Z0-9a-z^*()_+=[\]{}|\\,.?: -#]{3,50}$/.test(title))
+           {
+             flag=1;
+             errors[errors.length] = "You must enter valid section title.";
+             break;
+            }
+    
+        }
+        if(flag == 1)
+        {
+        reportErrors(errors);
+        return false;
+        }
+        else 
+        {
+         for (i = 0; i < limit; i++) {
+             checked.push($("#sec_"+i).val());
+           
+         }
+        var checkedStr = checked.join();
+        $("#secquesCount").val(checkedStr.toString());
+            return true;
+        }
+        
+        
+ });
+    
+
+    function reportErrors(errors) {
+        var msg = "Please enter valid data...\n";
+        for (var i = 0; i < errors.length; i++) {
+            var numError = i + 1;
+            msg += "<br/>" + numError + ". " + errors[i];
+            document.getElementById("alert_err").innerHTML = msg;
+        }
+    }
+    </script>

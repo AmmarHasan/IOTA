@@ -1,0 +1,159 @@
+﻿@model InteractiveLearning.Models.AdminModel
+@{
+    ViewBag.Title = "View Student List";
+ }
+ <link href="@Url.Content("~/Content/AccountStyle.css")" rel="stylesheet" type="text/css" />
+ <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+<link href="@Url.Content("~/Content/ResponsiveTable.css")" rel="stylesheet" type="text/css" />
+<style>
+
+    
+.field-validation-error
+{
+    color:Red;
+    display:block;
+    text-align:center;
+    } 
+  .warningmessage
+  {
+      color:Red;
+      text-align:center;
+      font-weight:bold;
+      
+  }
+    .greenbck
+{
+    background:#0c5a55;
+    border:1px solid #00544e;
+    
+}
+
+</style>
+<div data-role="navbar" class="custom-navbar">
+<ul >
+
+    <li>@Html.ActionLink("My Tests", "../Test/Index", "Test", new { data_ajax = "false"})</li>
+    <li>@Html.ActionLink("Create Test", "../Test/Create", "Test", new { data_ajax = "false" })</li>
+    <li>@Html.ActionLink("Admin", "Index", "Admin", null, new { data_ajax = "false" })</li>
+        
+</ul>
+</div>
+ @using (Html.BeginForm("ViewStudent", "Admin", FormMethod.Post, new { data_ajax = "false" }))
+ {
+  <table data-role="table" id="movie-table-custom" data-mode="reflow" class="movie-list ui-responsive">
+  <thead>
+    <tr>
+      <th data-priority="2" style="width:30%">@Html.Label("Choose Discipline")</th>
+    
+      <th data-priority="2" style="width:40%">@Html.Label("Batch")</th>
+      <th data-priority="2" style="width:20%">@Html.Label("Section")</th>
+      
+      <th data-priority="1" style="width:10%">@Html.Label("")</th>
+      
+     </tr>
+  </thead>
+  <tbody>
+         <tr>
+      
+      <td style="text-align:center">         
+      @Html.DropDownListFor(m => m.dept, Model.Departments, new { data_inline = "true",data_mini="true" })
+      </td>
+      <td style="text-align:center">
+        @Html.TextBoxFor(m => m.batch, new { placeholder = "For e.g : 2010-2011", pattern = "[0-9]{4}[/-][0-9]{4}" ,data_mini="true",data_inline="true"})
+           <span class="field-validation-error" id="err-btch">Batch field is required</span> 
+         
+      </td>
+      <td style="text-align:center">
+           @Html.DropDownListFor(m => m.section, new SelectList(new List<object> { "A", "B", "C", "D" }), new { data_inline = "true", data_ajax = "false", data_mini = "true" })
+
+      </td>
+      <td style="text-align:center"> <input type="submit" value="View Student List" data-theme="f" data-icon = "search" data-inline="true" id="btnSubmit" data-mini="true" /></td>
+    </tr>
+   </tbody>
+   </table>
+
+   
+           
+ }
+
+
+ <br /><br />
+
+
+
+ @if (Model.sudentlist != null && Model.sudentlist.Count > 0)
+ { 
+  <center><h4>@ViewData["dept"] Student List of batch @ViewData["batch"] Section  @ViewData["section"] </h4></center>
+ <center> <span class="warningmessage">Records : @Model.sudentlist.Count</span> </center>
+
+<br />       
+ <table data-role="table" id="movie-table-customm"  class="movie-list">
+  <thead>
+    <tr>
+      <th data-priority="2" style="width:25%">@Html.Label("Enrollment No")</th>
+    
+      <th data-priority="2" style="width:10%">@Html.Label("Roll No")</th>
+      <th data-priority="1" style="width:25%">@Html.Label("Name")</th>
+      
+      <th data-priority="2" style="width:30%">@Html.Label("Delete ")</th>
+ 
+ 
+     </tr>
+  </thead>
+  <tbody>
+   
+   @foreach (var item in Model.sudentlist)
+   {              
+	   
+  
+    <tr>
+      <td style="text-align:center">@item.EnrollmentNo</td>
+      <td style="text-align:center">@item.Std_RollNo</td>
+      <td style="text-align:center">@item.Std_Name</td>
+      
+    <td style="text-align:center">
+       @using (Html.BeginForm("DeleteStudent", "Admin", FormMethod.Post, new { data_ajax = "false" }))
+{
+   
+     <input id="id" type="hidden" name="id" value="@item.EnrollmentNo" />
+    <input id="dept" type="hidden" name="dept" value="@item.Department" />
+    <input id="btch" type="hidden" name="btch" value="@item.Batch" />      
+    <input id="section" type="hidden" name="section" value="@item.Section" />      
+    
+     <button type="submit" data-role="button" data-mini="true"  data-icon="delete" data-inline="true" data-theme="f" onclick="if(!confirm('This action will remove this student. Would you like to proceed?')){return false;}">Delete</button>
+}
+               </td>
+
+
+     
+
+    </tr>
+   }
+   </tbody>
+   </table>
+ }
+
+ else if (Model.sudentlist != null && Model.sudentlist.Count == 0)
+ {
+          <center> <span class="warningmessage">Record not found</span> </center>
+
+ }
+
+  
+   <script type="text/javascript">
+
+       $("#err-btch").hide();
+
+       $("#btnSubmit").live("click", function () {
+           var btch = $("#batch").val();
+           if (btch == "") {
+               $("#err-btch").show();
+
+               return false;
+           }
+
+        
+       });
+      
+   </script> 

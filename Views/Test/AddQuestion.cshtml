@@ -1,0 +1,116 @@
+﻿@model InteractiveLearning.Models.CreateTest
+@{
+    ViewBag.Title = "Add Question";
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        if ($('#testimg').attr('src')) {
+            document.getElementById('testimg').style.display = "block";
+            document.getElementById('imgd').value = true;
+        }
+        else {
+            document.getElementById('testimg').style.display = "none";
+            document.getElementById('imgd').value = false;
+        }
+    });
+</script>
+
+<style>
+.df
+{
+    margin-bottom:30px;
+    margin-top:0px;
+}
+.greenbck
+{
+    background:#0c5a55;
+    border:1px solid #00544e;
+}
+.ui-icon-pencil {
+	background-image: url("@Url.Content("~/Content/images/edit.png")");
+	background-size: 18px 18px;
+}
+</style>
+ @Html.Partial("Shared_Test1")
+
+<p style="text-align:right;">
+@Html.ActionLink("Upload Questions", "ImportQuestion", new { id = Model.testId, secid = Model.secId }, new { data_role = "button", data_theme = "f", data_inline = "true", data_mini = "true", data_icon = "arrow-u"}) 
+@Html.ActionLink("Save as Excel", "SaveQs", new { id = Model.testId}, new { data_role = "button", data_theme = "f", data_inline = "true", data_mini = "true", data_icon = "arrow-d",data_ajax="false"}) 
+</p>
+
+ <ul data-role="listview" data-inset="true">
+ <li data-role="list-divider" class="greenbck">Add Questions</li>   
+@using (@Html.BeginForm("AddQuestion", "Test", FormMethod.Post, new { data_ajax = "false" }))
+{
+    @Html.ValidationSummary(true)
+<li>
+        @Html.HiddenFor(m => m.testId)
+        @Html.HiddenFor(m => m.noQ)
+        @Html.HiddenFor(m => m.secId)
+        @Html.HiddenFor(m => m.question.QsImg, new { @id = "imgd" })
+        @Html.HiddenFor(m => m.imagedata)
+        @Html.HiddenFor(m => m.allSec)
+
+        @Html.Label("Question: ")
+        <div>
+        @Html.TextAreaFor(m => m.question.Question1, new { required = "true" })
+       
+        <img src=@ViewBag.im id="testimg" border="1" width="200" height="200"/>
+        
+        </div>
+        <div align="right">@Html.ActionLink("WhiteBoard", "Index", "WhiteBoard", new { testID = Model.testId, qID = Model.noQ, secId = Model.secId, imgData = Model.imagedata}, new { data_role = "button", data_inline = "true", data_theme = "f", data_mini = "true", data_ajax = "false", data_icon = "pencil" })</div>
+  </li>
+    <li>
+        @Html.Label("Choice A: ")
+        @Html.TextBoxFor(m => m.question.Option1, new { required = "true" })
+   </li>
+   <li>
+       @Html.Label("Choice B: ")
+        @Html.TextBoxFor(m => m.question.Option2, new { required = "true" })
+   </li> 
+    <li>
+        @Html.Label("Choice C: ")
+        @Html.TextBoxFor(m => m.question.Option3, new { required = "true" })
+   </li>
+    <li>
+        @Html.Label("Choice D: ")
+        @Html.TextBoxFor(m => m.question.Option4, new { required = "true" })
+   </li>
+    <li>
+        @Html.Label("Correct Answer: ")
+        @Html.DropDownListFor(m => m.question.CorrectAns, new SelectList(
+                  new List<Object>{ 
+                       new { value = "Option A" , text = "Choice A" },
+                       new { value = "Option B" , text = "Choice B" },
+                       new { value = "Option C" , text = "Choice C" },
+                       new { value = "Option D" , text = "Choice D" },
+                    },
+                  "value",
+                  "text"), new { data_inline = "true" })
+   </li>
+    <li>
+        <div style="text-align:right;"> <button type="submit" data-role="button" data-inline="true" data-theme="f" data_mini="true" data-icon="plus" data-mini="true"> Save Question</button>
+            @if (Model.secId == 0)
+            {
+                if (Model.noQ >= 1)
+                {
+                    @Html.ActionLink("Publish Now", "Publish", new { testID = Model.testId }, new { data_role = "button", data_inline = "true", data_theme = "f", data_mini = "true" })
+                }
+            }
+            else
+            {
+                if (Model.noQ >= 1)
+                {
+                    @Html.ActionLink("Add Question in Other Sections", "SecQuestion", new { testID = Model.testId }, new { data_role = "button", data_inline = "true", data_theme = "f", data_mini = "true", data_icon = "plus" })
+                    if (Model.allSec == true)
+                    {
+                        @Html.ActionLink("Publish Now", "Publish", new { testID = Model.testId }, new { data_role = "button", data_inline = "true", data_theme = "f", data_mini = "true" })
+                    }
+                }
+            }
+            @Html.ActionLink("Edit Test", "EditTest", new { id = Model.testId }, new { data_role = "button", data_inline = "true", data_theme = "f", data_mini = "true", data_icon = "pencil" ,data_ajax="false"})
+        </div>
+    </li>
+}
+</ul>  

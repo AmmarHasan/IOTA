@@ -1,0 +1,43 @@
+﻿@model IList<InteractiveLearning.User_Requests>
+             <div data-role="collapsible" data-collapsed="true">
+			 <h3>Incoming Requests</h3>
+		     <ul data-role="listview" data-inset="true"data-theme="c" >
+                    
+
+            @foreach (var itm in Model)
+            {
+                if (Context.User.Identity.IsAuthenticated && Membership.GetUser(User.Identity.Name).Email == itm.User_Details1.EmailID)
+                {
+                <li>
+                
+                <p><a href="@Url.Action("AckRequest", "Connect", new { id = itm.ID })" style="text-decoration:none;">You've received a request from user <b>@itm.User_Details.UserName</b>.</a></p> 
+                </li>
+                }
+              
+            }
+       </ul>
+       </div>
+     <div data-role="collapsible" data-collapsed="true">
+			 <h3>Outgoing Requests</h3>
+		     <ul data-role="listview" data-inset="true"data-theme="c" >
+             
+           @foreach (var itm in Model)
+            {
+           
+                if (Context.User.Identity.IsAuthenticated && Membership.GetUser(User.Identity.Name).Email != itm.User_Details1.EmailID)
+                {
+                      <li>
+           
+                <p><a href="@Url.Action("AckRequest", "Connect", new { id = itm.ID })" style="text-decoration:none;">You've sent a request to user <b>@itm.User_Details1.UserName</b>.</a></p> 
+            
+                    </li>
+            
+                }
+
+            }
+            </ul>
+            </div>
+
+
+  
+          

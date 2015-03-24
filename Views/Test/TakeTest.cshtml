@@ -1,0 +1,47 @@
+﻿@model InteractiveLearning.Models.TakeTest
+@{
+    ViewBag.Title = "Give Test";
+}
+<style>
+ .greenbck
+{
+    background:#0c5a55;
+    border:1px solid #00544e;
+}
+</style>
+<div data-role="navbar" class="custom-navbar">
+<ul >
+ 
+    <li>@Html.ActionLink("Results", "Index", "Grades")</li>
+    <li>@Html.ActionLink("Select Test", "Take", "Test", new { data_ajax = "false" })</li>
+</ul>
+</div>
+<ul data-role="listview" data-inset="true" data-theme="c" >
+<li data-role="list-divider"  class="greenbck">Test Details</li>      
+
+<li>
+
+    @Html.Label("Title: ")
+    @Html.Label(Model.test.Title)
+</li>
+<li>
+    @Html.Label("Description: ")
+    @Html.Label(Model.test.Description)
+</li>
+<li>
+    @Html.Label("Topic: ")
+    @Html.Label(Model.test.Course.Name)
+</li>
+<li>
+    @Html.Label("Max Time: ")
+    @ViewBag.max
+</li>
+<li>
+<h3 style="color:Red;">Instruction</h3>
+<i>Once you begin the test, you must complete it in its entirety in one session and submit a completed test to view result</i>
+</li>     
+<li>
+    <div style="text-align:right;">@Html.ActionLink("Start Test", "TakingTest", new { id = Model.testId }, new { data_role = "button", data_inline = "true", data_theme = "f", target = "_blank" })
+    </div>
+</li>
+</ul>

@@ -1,0 +1,117 @@
+﻿@model InteractiveLearning.Models.EditTest
+@{
+    ViewBag.Title = "Questions";
+}
+<style>
+.link1
+{               
+    float:right;
+    display:inline;
+    height:26px;
+    margin-top:-10px;
+    position:relative;
+                  
+}
+.greenbck
+{
+    background:#0c5a55;
+    border:1px solid #00544e;
+}
+.ui-icon-edit {
+	background-image: url("../../Content/images/edit.png");
+	background-size: 18px 18px;
+}
+  .ui-icon-del {
+	background-image: url("../../Content/images/del.png");
+	background-size: 18px 18px;
+}
+</style>
+
+ @Html.Partial("Shared_Test1")
+<center><h2>@ViewBag.titletest</h2></center>
+ @if (TempData["DelQue"] != null)
+{
+    <script> 
+        alert("All Questions in this Section have been deleted. Test can't be published!");
+    </script>
+}
+else if (TempData["DelQues"] != null)
+{
+    <script>
+        alert("All Questions in this Section have been deleted. Test can't be published until every section contains question"); 
+    </script>
+}
+
+<ul data-role="listview" data-inset="true">
+    <li data-role="list-divider"  class="greenbck"> @Model.ques.Count  Questions</li> 
+    @if (Model.sec.Count > 0)
+    {
+        foreach (var itemm in Model.sec)
+        {
+            <div data-role ="collapsible">
+            <h1>@itemm.SectionName</h1>
+            @foreach (var item in Model.ques)
+            {
+                
+                    if(item.SectionID == itemm.Section_ID)
+                {
+                    <ul data-role="listview" data-inset="true">
+                    <li><strong>Q.</strong>
+                    @using (Html.BeginForm("DeleteQues", "Test", FormMethod.Post, new { @class = "link1", data_ajax = "false" }))
+                    {
+                        <input id="@item.QuesID" type="hidden" name="id" value="@item.QuesID" />
+                        <a href='@Url.Action("UpdateQues", "Test", new { id = item.QuesID })'  data-role="button" data-theme="f" data-icon="edit" data-inline="true" data-iconpos="notext">Edit Question</a>
+                        <button type="submit" data-role="button"  data-icon="del" data-inline="true" data-iconpos="notext"  data-theme="f" onclick="if(!confirm('This action will remove this question from the test. Would you like to proceed?')){return false;}">Delete Question</button>
+                    }
+                    </li>
+                    <li><textarea disabled>@item.Question1 </textarea>
+                    @if (@item.QsImg == true)
+                    {
+                    <div> <img src="@Url.Content("~/Content/TestImages/" + @item.ImgFile)" /></div>
+                    }
+                    </li>
+                   </ul>
+                }
+            }
+             <li>
+             <div style="text-align:right;" > 
+                            @Html.ActionLink("Add Question", "AddQuestion", new { cID = @Model.testId, num = @Model.ques.Count, sID = @itemm.Section_ID }, new { data_role = "button", data_inline = "true", data_theme = "f", data_icon = "plus", data_ajax = "false",data_mini ="true" })
+              </div>
+              </li>
+            </div>
+        }
+    }
+
+    else
+    {
+        if (Model.ques.Count == 0)
+        {
+             <li>No questions created yet.</li>
+        }
+        else
+        {
+            foreach (var item in Model.ques)
+            {
+        <li><strong>Q.</strong>
+        @using (Html.BeginForm("DeleteQues", "Test", FormMethod.Post, new { @class = "link1", data_ajax = "false" }))
+        {
+            <input id="id" type="hidden" name="id" value="@item.QuesID" />
+            <a href='@Url.Action("UpdateQues", "Test", new { id = item.QuesID })'  data-role="button" data-theme="f" data-icon="edit" data-inline="true" data-iconpos="notext">Edit Question</a>
+            <button type="submit" data-role="button"  data-icon="del" data-inline="true" data-iconpos="notext"  data-theme="f" onclick="if(!confirm('This action will remove this question from the test. Would you like to proceed?')){return false;}">Delete Question</button>
+        }
+        </li>
+        <li><textarea disabled>@item.Question1 </textarea>
+        @if (@item.QsImg == true)
+        {
+        <div> <img src="@Url.Content("~/Content/TestImages/" + @item.ImgFile)" /></div>
+        }
+        </li>
+    
+   
+            }
+        }
+         <li><div style="text-align:right;" > 
+        @Html.ActionLink("Add Question", "AddQuestion", new { cID = @Model.testId, num = @Model.ques.Count, sID = 0 }, new { data_role = "button", data_inline = "true", data_theme = "f", data_icon = "plus", data_ajax = "false",data_mini = "true" })
+    </div></li>
+    }
+</ul>

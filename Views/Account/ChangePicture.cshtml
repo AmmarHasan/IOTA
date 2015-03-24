@@ -1,0 +1,118 @@
+﻿@model  InteractiveLearning.Models.PictureModelView
+
+
+
+<h2>ChangePicture</h2>
+@{
+    Layout = "";
+}
+
+
+<html class="ui-mobile">
+<head>
+    <base href="http://localhost:60890/Account/ChangePicture">
+    <title></title>
+</head>
+<body class="ui-mobile-viewport ui-overlay-c">
+    <h2>ChangePicture</h2>
+
+
+    <meta name="viewport" content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,width=device-width,user-scalable=no">
+    <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
+
+    <link href="/Content/jquery.mobile-1.1.0.css" rel="stylesheet" type="text/css">
+
+    <script type="text/javascript" src="/Scripts/jquery-1.8.2.min.js"></script>
+
+    <script type="text/javascript" src="/Scripts/jquery-ui.min.js"></script>
+
+ 
+
+
+
+    <style>
+        .rightcsrd {
+            font-size: 14px;
+            color: white;
+            text-align: right;
+            float: right;
+            padding: 10px;
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        .leftcsrd {
+            float: left;
+        }
+
+        .imgfooter {
+            margin-left: 10px;
+            margin-right: 5px;
+            margin-top: -8px;
+        }
+
+        .csrd {
+            font-style: italic;
+            font-size: 13px;
+            padding: 0px;
+            height: 42px;
+            display: inline;
+            text-shadow: none;
+            /*color:#0c5a55;*/
+        }
+    </style>
+
+
+        
+
+
+
+
+    <div data-role="page" id="main_page" data-url="main_page" tabindex="0" class="ui-page ui-body-c ui-page-footer-fixed ui-page-active" style="padding-bottom: 44px; min-height: 374px;">
+
+        <div data-role="header" data-theme="f" class="ui-header ui-bar-f" role="banner">
+            <center> <img src="/Content/images/eTest7.png" width="180" height="40"></center>
+            <a data-icon="gear" href="/Account/Index" class="ui-btn-left ui-btn ui-btn-up-f ui-shadow ui-btn-corner-all ui-btn-icon-left" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="f"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">@Membership.GetUser(User.Identity.Name).Email</span><span class="ui-icon ui-icon-gear ui-icon-shadow">&nbsp;</span></span></a>
+        </div>
+
+<br/><br/>
+                <form action="/Account/ChangePicture" enctype="multipart/form-data" method="post">
+            <ul data-role="listview" data-inset="true" class="ui-listview ui-listview-inset ui-corner-all ui-shadow">
+                <li data-role="list-divider" class="greenbck ui-li ui-li-divider ui-bar-b ui-corner-top" role="heading">Change Picture</li>
+
+                <li data-role="fieldcontain" class="ui-field-contain ui-body ui-br ui-li ui-li-static ui-body-c">
+                    <label for="OldPassword" class="ui-input-text">Upload Picture</label>
+                    <input type="file" id="uploadFile" value="Upload Pic" name="File">
+                </li>
+
+                
+                <li data-role="fieldcontain" class="ui-field-contain ui-body ui-br ui-li ui-li-static ui-body-c ui-corner-bottom">
+                    <center> <div data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-icon="null" data-iconpos="null" data-theme="f" data-inline="true" data-mini="false" class="ui-btn ui-btn-up-f ui-btn-inline ui-shadow ui-btn-corner-all ui-fullsize" aria-disabled="false"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">Submit</span></span><input type="submit" value="Change Password" data-theme="f" data-inline="true" class="ui-btn-hidden" aria-disabled="false"></div></center>
+                </li>
+            </ul>
+
+        </form>
+        <div data-role="content" class="ui-content" role="main">
+
+
+
+
+
+
+        </div>
+
+        <div class="csrd ui-footer ui-bar-f ui-footer-fixed slideup" data-role="footer" data-theme="f" data-position="fixed" style="text-align:left;bottom:0" id="footer-csrd" role="contentinfo">
+            <p class="leftcsrd">
+                <img src="/Content/images/Logo.png" align="middle" class="imgfooter"> Powered by: Center for Software Research &amp; Development (CSRD)
+            </p>
+            <span class="rightcsrd">FeedBack : csrd@neduet.edu.pk</span>
+
+        </div>
+
+
+
+    </div>
+
+    <div class="ui-loader ui-corner-all ui-body-a ui-loader-default"><span class="ui-icon ui-icon-loading"></span><h1>loading</h1></div>
+</body>
+</html>    

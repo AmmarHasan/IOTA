@@ -1,0 +1,64 @@
+﻿@model InteractiveLearning.Models.CreateTest
+
+@{
+    ViewBag.Title = "Publish";
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#y').click(function () {
+            var $this = $(this);
+            if ($this.is(':checked')) {
+                document.getElementById("pDate").style.display = "none";
+            }
+        });
+        $('#n').click(function () {
+            var $this = $(this);
+            if ($this.is(':checked')) {
+                document.getElementById("pDate").style.display = "block";
+            }
+        });
+    })
+</script>
+
+<style>
+.greenbck
+{
+    background:#0c5a55;
+    border:1px solid #00544e;
+}
+</style>
+ @Html.Partial("Shared_Test1")
+  @if (TempData["pub"] != null) {
+      <script>
+          alert("No Questions Added. Test can't be Published"); 
+       </script>
+  }
+@using (@Html.BeginForm("Publish", "Test", FormMethod.Post))
+{
+<ul data-role="listview" data-inset="true">
+    <li data-role="list-divider"  class="greenbck"> Publish Test</li>      
+    @Html.ValidationSummary(true)
+    <li>
+        @Html.HiddenFor(m => m.testId)
+        @Html.Label("Do you want to Publish now? ")
+        <div>
+        <fieldset data-role="controlgroup" data-type="horizontal" data-role="fieldcontain">
+        @Html.RadioButtonFor(m => m.pub, true, new { @checked = "checked", @id = "y" })<label for="y">Yes</label>
+        @Html.RadioButtonFor(m => m.pub, false, new { @id = "n" })<label for="n">No</label>
+        </fieldset>
+        </div>
+    </li>
+@*    <li>
+        <div id="pDate" style="display:none">
+        @Html.Label("When do you want to Publish the test? ")
+        @Html.TextBoxFor(m => m.test.DatePublished, DateTime.UtcNow.ToLocalTime().ToString("dd-MM-yyyy"), new { type = "date" })
+        </div>
+    </li>*@
+    <li>
+        <div style="text-align:right;">
+        <input type="submit" value="Save Test" data-role="button"  data-inline="true" data-theme="f" class="rightAlign" />
+        </div>
+    </li>
+    </ul>
+}

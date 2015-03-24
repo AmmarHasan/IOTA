@@ -1,0 +1,294 @@
+﻿@model InteractiveLearning.Models.EditTest
+
+@{
+    ViewBag.Title = "Preview/Edit Test";
+    
+}
+
+<script type="text/javascript">
+ $(document).ready(function () {
+    $('.tag').autocomplete(
+    {
+        source: '@Url.Action("TagSearch", "Test")'
+    });
+</script>
+<style>
+.field-validation-error
+{
+    color:Red;
+    display:block;
+    text-align:center;
+    }     
+    
+.in
+{
+    display:inline;
+}
+.ui-autocomplete{
+    position: absolute;
+    background: rgb(255,255,255); /* Old browsers */
+    background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(241,241,241,1) 50%, rgba(225,225,225,1) 51%, rgba(246,246,246,1) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(50%,rgba(241,241,241,1)), color-stop(51%,rgba(225,225,225,1)), color-stop(100%,rgba(246,246,246,1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(241,241,241,1) 50%,rgba(225,225,225,1) 51%,rgba(246,246,246,1) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(241,241,241,1) 50%,rgba(225,225,225,1) 51%,rgba(246,246,246,1) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(241,241,241,1) 50%,rgba(225,225,225,1) 51%,rgba(246,246,246,1) 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(241,241,241,1) 50%,rgba(225,225,225,1) 51%,rgba(246,246,246,1) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f6f6f6',GradientType=0 ); /* IE6-9 */
+    border: solid 1px #DDDDDD;
+    float: left;
+    list-style: none;
+    margin: 0;
+    padding: 2px;
+}
+.ui-autocomplete .ui-menu-item {
+  clear: left;
+  float: left;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+.ui-autocomplete .ui-menu-item a {
+  display: block;
+  line-height: 1.5;
+  padding: 0.2em 0.4em;
+  text-decoration: none;
+  color: black;
+  font-family: Helvetica,Arial,sans-serif;
+}
+.greenbck
+{
+    background:#0c5a55;
+    border:1px solid #00544e;
+}
+.link1
+{
+    float:right;
+    display:inline;
+    top:0;
+    position:absolute;
+    right:0;
+}
+.lnk
+{
+    text-decoration:none;
+    font-size:medium;
+    font-family:Century Gothic;
+}
+
+</style>
+ @Html.Partial("Shared_Test1")
+@if (TempData["editTest"] != null)
+{
+      <script> alert("@TempData["editTest"]");
+      </script>
+}
+@using (Html.BeginForm("Delete", "Test", FormMethod.Post, new { data_ajax = "false" ,data_inline="true"}))
+{
+    <p style="text-align:right;">
+   @Html.ActionLink("View Questions", "ViewQues", new { id = Model.test.TestID, sID = 0 }, new { data_role = "button", data_inline = "true", data_theme = "f", data_mini = "true", data_icon = "search" })
+  
+    @Html.ActionLink("View Test Results", "ViewResult", new { id = Model.test.TestID },new { data_role = "button", data_theme = "f", data_inline = "true", data_mini = "true", data_icon = "search", target = "_blank" }) 
+    @Html.ActionLink("Save Questions In Excel", "SaveQs", new { id = Model.test.TestID },new { data_role = "button", data_theme = "f", data_inline = "true", data_mini = "true", data_icon = "arrow-d" ,data_ajax="false"}) 
+    
+    <input id="id" type="hidden" name="id" value="@Model.test.TestID" />
+     <button type="submit" data-role="button" data-mini="true"  data-icon="delete" data-inline="true" data-theme="f" onclick="if(!confirm('This action will remove this test. Would you like to proceed?')){return false;}">Delete Test</button>
+ </p>   
+}
+
+   <ul data-role="listview" data-inset="true">
+       <li data-role="list-divider" class="greenbck">Edit Test</li>
+    
+@using (@Html.BeginForm("EditTest", "Test", FormMethod.Post, new { data_ajax = "false" }))
+{
+     <input type="hidden" name="secPrivacy" id="secPrivacy" value="@Model.sections" />
+   
+    @Html.ValidationSummary(true)
+   
+    <li>
+        @Html.HiddenFor(m => m.test.TestID)
+        <h3>Title</h3>
+        @Html.TextBoxFor(m => m.test.Title, new { required = "true" })
+   </li>
+   <li>
+        <h3>Description</h3>
+        @Html.TextBoxFor(m => m.test.Description, new { required = "true" })
+   </li>
+   <li>
+        <h3>Topic</h3>
+        @Html.TextBoxFor(m => m.test.Course.Name, new { @class = "tag" })
+         @Html.HiddenFor(m => m.test.Course.ID)
+   </li>
+    <li>
+         <h3>Status</h3>
+         @Html.DropDownListFor(m => m.test.Status, new SelectList(
+             new List<object> {
+                       new { value = "Published" , text = "Publish Now" },
+                       new { value = "Saved" , text = "Save Only" },
+                    },
+                  "value",
+                  "text"), new { data_inline = "true" })
+   </li>
+   
+    <div id="sec">
+   	    
+        @if (Model.sec.Count != 0)
+        { 
+           <h3>Sections</h3>
+	  
+            var i = 1;
+            foreach (var item in Model.sec.Select((value, j) => new { j, value }))
+            {
+                
+             <li>@i. @Html.ActionLink(item.value.SectionName, "ViewSec", new { id = item.value.Section_ID }, new { @class = "lnk" })
+             </li>
+                i++;
+            }
+        }
+     @if (Model.sec.Count > 0)
+     {
+           <div style="text-align:right;"> @Html.ActionLink("Add Section", "SecDetailsForOne", new { cID = @Model.test.TestID, num = 1 }, new { data_role = "button", data_inline = "true", data_theme = "f", data_icon = "plus", data_ajax = "false", data_mini = "true" })</div>
+     }    
+   </div>
+    <li>
+        <h3>No. of Question Per Page : </h3>
+        @Html.TextBoxFor(m => m.test.QuesPerPage, new { placeholder = "Enter 0 to list all questions in a single page", type = "number", min = "0", max = "5", validate = "validate", @id = "qsperpage" })
+   </li> 
+    
+    <li>
+        <h3>Maximum Questions in Test</h3>
+        @Html.TextBoxFor(m => m.test.MaxQuestion)
+   </li>
+   <li>
+        <h3>Time Based</h3>
+        <fieldset data-role="controlgroup" data-type="horizontal" data-role="fieldcontain" >
+        @Html.RadioButtonFor(m => m.test.Time, false, new { @id = "tim" })<label for="tim">No</label>
+        @Html.RadioButtonFor(m => m.test.Time, true, new { @id = "ti" })<label for="ti">Yes</label>
+       </fieldset>
+   </li>
+   <li id="max">
+        <h3>Max Time(in minutes)</h3>
+        @Html.TextBoxFor(m => m.test.MaxTime, new { type = "number", min = "1", validate = "validate" })
+   </li>
+    
+    
+      <li>
+       <h3> Is test open for all ?</h3>
+           <fieldset data-role="controlgroup" data-type="horizontal" data-role="fieldcontain"  >
+        @Html.RadioButtonFor(m => m.isopen, false, new { @id = "opn", @class = "radioforopn" })<label for="opn">No</label>
+        @Html.RadioButtonFor(m => m.isopen, true, new { @id = "opnn", @class = "radioforopn" })<label for="opnn">Yes</label>
+      </fieldset>    
+   </li>
+
+
+        <li data-role="fieldcontain" id = "btch">
+      
+        <h3>Batch</h3>           
+        @Html.TextBoxFor(m => m.test.Batch, new { placeholder = "For e.g : 2010-2011", pattern = "[0-9]{4}[/-][0-9]{4}" })
+        <span class="field-validation-error" id="err-btch">Batch field is required</span> 
+        </li>
+        <li data-role="fieldcontain" id = "deptlist">
+            <h3>Discipline</h3>
+            @Html.DropDownListFor(m => m.test.Department, Model.Departments, new { data_inline = "true" })
+
+           
+       </li>
+        <li data-role="fieldcontain" id = "seclist">
+            <fieldset data-role="controlgroup">
+					<legend>Choose Sections:</legend>
+					<input type="checkbox" name="checkbox-1a" id="checkbox-1a"  class="custom" value="A"/>
+					<label for="checkbox-1a">A</label>
+
+					<input type="checkbox" name="checkbox-2a" id="checkbox-2a"  class="custom" value="B"/>
+					<label for="checkbox-2a">B</label>
+					
+					<input type="checkbox" name="checkbox-3a" id="checkbox-3a"  class="custom" value="C"/>
+					<label for="checkbox-3a">C</label>
+
+					<input type="checkbox" name="checkbox-4a" id="checkbox-4a"  class="custom" value="D"/>
+					<label for="checkbox-4a">D</label>
+			    </fieldset>
+           
+       </li>
+ 
+   <li >
+    <div style="text-align:right;">
+    <button type="submit" data-role="button" data-mini="true" data-inline="true" data-theme="f" data-icon="check">Update Test</button>
+    </div>
+    </li>
+}
+
+ </ul>
+
+
+<script type="text/javascript">
+    var val = "@Model.isopen";
+    var val_t = "True";
+    var sp = "@Model.test.ForSections";
+    arr = sp.split(",");
+    var boxes = document.getElementsByClassName('custom');
+    var checked = [];
+        for (var j = 0; arr[j]; j++) {
+            for (var i = 0; boxes[i]; i++) {
+  
+            if (boxes[i].value == arr[j]) {
+                boxes[i].checked = true;
+            }
+        }
+    }
+    $("#err-btch").hide();
+
+    if (val == "False") {
+        $("#deptlist").show();
+        $("#btch").show();
+        $("#seclist").show();
+
+    }
+    else {
+        $("#deptlist").hide();
+        $("#btch").hide();
+        $("#seclist").hide();
+
+
+    }
+    $(".radioforopn").bind("change", function (event, ui) {
+       val = $(this).attr("value");
+        if (val == "False") {
+            $("#deptlist").show();
+            $("#btch").show();
+            $("#seclist").show();
+
+        }
+        else {
+            $("#deptlist").hide();
+            $("#btch").hide();
+            $("#seclist").hide();
+
+
+        }
+    });
+
+    $('form').on('submit', function () {
+        var btch = $("#test_Batch").val();
+        var boxes = document.getElementsByClassName('custom');
+        var checked = [];
+        for (var i = 0; boxes[i]; ++i) {
+            if (boxes[i].checked) {
+                checked.push(boxes[i].value);
+            }
+        }
+
+        var checkedStr = checked.join();
+
+        $("#secPrivacy").val(checkedStr.toString());
+        // check validation
+        if (val == "False" && btch == "") {
+            $("#err-btch").show();
+
+            return false;
+        }
+
+        else {
+            return true;
+        }
+    });
+</script>

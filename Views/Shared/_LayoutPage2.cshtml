@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>@ViewBag.Title</title>
+        <meta name="viewport" content="width=device-width" />
+        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+            
+  <link href="@Url.Content("~/Content/jquery.mobile-1.1.0.css")" rel="stylesheet" type="text/css" />
+  <script  type="text/javascript" src="@Url.Content("~/Scripts/jquery-1.8.2.min.js")"></script>
+  <script  type="text/javascript" src="@Url.Content("~/Scripts/jquery-ui.min.js")"></script>
+  <script src="@Url.Content("~/Scripts/jquery.mobile-1.1.0.js")" type="text/javascript"></script>
+ 
+ 		
+ 
+<style>
+
+</style>      
+
+   </head>
+    <body>
+        <div data-role="page">
+            <div data-role="header" >
+                 <img src="@Url.Content("~/Content/home/logo.PNG")" class="displayed"/>
+       
+        <div id="login-header">
+     
+      <a href='@Url.Action("Login", "Account")'  class="myButton">Sign In</a>
+      <a href='@Url.Action("Register", "Account")' class="myButton">Sign Up!<i>It's FREE</i></a>
+        </div>
+        </div>
+            <div data-role="content">
+                @RenderBody()
+            </div>
+
+            <!-- footer -->
+<div data-role="footer" data-position="fixed" data-theme="a">
+
+<div data-role="navbar">
+		<ul>
+			<li ><a href='@Url.Action("Index", "Home")' data-transition="slidefade">Home</a></li>
+			<li><a href='@Url.Action("About", "Home")'  data-transition="slidefade">About Us</a></li>
+            <li><a href='@Url.Action("Faq", "Home")' data-transition="slidefade">FAQs</a></li>
+            <li ><a href='@Url.Action("Contact", "Home")' data-transition="slidefade">Contact Us</a></li>
+            <li><a href='@Url.Action("Terms", "Home")'  data-transition="slidefade">Terms &amp Conditions</a></li>
+			
+		</ul>
+	</div>
+
+
+
+</div>
+        </div>
+
+ 
+      
+    </body>
+</html>

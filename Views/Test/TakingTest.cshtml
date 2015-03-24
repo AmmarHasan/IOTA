@@ -1,0 +1,299 @@
+﻿@model InteractiveLearning.Models.TakeTest
+@{
+    ViewBag.Title = @Model.test.Title;
+}
+<link href="@Url.Content("~/Content/jquery.countdown.css")"rel="stylesheet"  type="text/css" />
+<script src="@Url.Content("~/Scripts/jquery.countdown.js")" type="text/javascript"></script>
+<link href="@Url.Content("~/Content/alertify/alertify.core.css")" rel="stylesheet" />
+ <link href="@Url.Content("~/Content/alertify/alertify.default.css")" rel="stylesheet" />
+ <script src="@Url.Content("~/Scripts/alertify.min.js")"></script>
+ <script type="text/javascript" src="@Url.Content("~/Scripts/pagination/jquery.quick.pagination.min.js")"></script>
+
+<link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/pagination/styles.css")">
+
+<script>
+$(function () {
+   
+    if(@Model.test.QuesPerPage == 0)
+  {
+   $("#pagination3").quickPagination({pagerLocation:"both",pageSize:"@Model.ques.Count()"});
+  $("ul.pagination2").quickPagination({pagerLocation:"both",pageSize:"@Model.ques.Count()"});
+
+  }
+  else
+  {
+   $("#pagination3").quickPagination({pagerLocation:"both",pageSize:"@Model.test.QuesPerPage"});
+   $("ul.pagination2").quickPagination({pagerLocation:"both",pageSize:"@Model.test.QuesPerPage"});
+
+  }
+ 
+    if(@Model.test.MaxTime == -1)
+    {
+    document.getElementById('defaultCountdown').innerHTML="No time limit.";
+    }
+    else
+    {
+     t = @Model.test.MaxTime * 60;
+          shortly = new Date();
+        shortly.setSeconds(shortly.getSeconds() + t);
+        $('#defaultCountdown').countdown({ until: shortly, onExpiry: liftOff, format: 'MS' });
+   
+    }
+    callthis(t);
+    });
+    function callthis(t)
+    { 
+      if($("#ifsec").val() == "Yes" )
+    {
+        // alert dialog
+        alertify.alert("Click on Section tabs to view questions");
+        }
+    };
+ 
+    function liftOff() { 
+    alert('Time Up!');
+    $("#answer").submit();
+    }
+
+
+$('div[data-role="navbar"] button').live('click', function () {
+        $(this).addClass('ui-btn-active');
+        $('div.content_div').hide();
+        $('div#' + $(this).attr('data-button')).show();
+    });
+</script>
+
+<style>
+   div.testcont {
+position: absolute;
+top: 240px;
+bottom: 50px;
+left: 1em;
+right: 1em;
+
+}
+ div.testcontt {
+position: absolute;
+top: 150px;
+bottom: 50px;
+left: 1em;
+right: 1em;
+
+}
+.sectitle
+{
+    margin-left:50%;
+    margin-bottom:0px;
+   display:inline;
+}
+ 
+ .scrollable {
+ overflow-x:scroll;
+ -webkit-overflow-scrolling: touch;
+ -moz-overflow-scrolling: touch;
+ -ms-overflow-scrolling: touch;
+-o-overflow-scrolling: touch;
+        }
+.topbtn {
+text-align: right;
+position: absolute;
+top: 80px;
+right: 10px;
+}   
+body {
+  -webkit-user-select: none;
+     -moz-user-select: -moz-none;
+      -ms-user-select: none;
+          user-select: none;
+}
+input,
+textarea {
+      -webkit-user-select: none;
+     -moz-user-select: -moz-none;
+      -ms-user-select: none;
+          user-select: none;
+}    
+#defaultCountdown { width: 240px; height: 45px; }
+ .greenbck
+{
+    background:#0c5a55;
+    border:1px solid #00544e;
+}
+.def
+{
+    display:none;
+}
+.df
+{
+    margin-bottom:30px;
+    margin-top:0px;
+}
+div[name='sections']
+{
+    display:none;
+}
+
+
+</style>
+
+<div id="defaultCountdown"></div>
+<input type="hidden" value="@ViewBag.IsSection" id="ifsec"/>
+
+@if (@Model.sec != null)
+{
+ <div data-role="navbar" class="custom-navbar">
+    <ul >
+        @foreach (var res in Model.sec.Select((value, i) => new { i, value }))
+        {
+            <li><button data-button = @res.value.SectionName.Replace(" ", "") data-corners="false" data-theme="a">@res.value.SectionName</button></li>
+        }
+    </ul>
+    </div>
+}
+
+
+@using (@Html.BeginForm("TakingTest", "Test", FormMethod.Post, new { @id = "answer", data_ajax = "false" }))
+{
+    <div class="topbtn"> <input type="submit" value="Finish Test"  data-role="button" data-mini="true" data-inline="true" data-theme="f"/>
+    </div>
+    
+    @Html.HiddenFor(m => m.testId)
+    @Html.HiddenFor(m => m.rankey)
+   
+    @Html.ValidationSummary(true)
+    <ul data-role="listview" data-inset="true">
+
+ <li data-role="list-divider"  class="greenbck"> Answer following Questions</li>      
+ </ul>
+ 
+ if (Model.sec == null)
+ {
+  <div  class="testcontt scrollable">
+   
+  <ul data-role="listview" data-inset="true" id ="pagination3">
+
+     @foreach (var item in Model.ques.Select((value, i) => new { i, value }))
+     {
+           <ul data-role="listview" data-inset="true">
+
+   <li>
+          <strong>@Html.Label("Question: ")</strong>
+          @Html.TextAreaFor(m => item.value.Question1, new { disabled = "true" })
+    </li>
+    <li>
+     @if (item.value.QsImg == true)
+     {
+        <div> <img src="@Url.Content("~/Content/TestImages/" + item.value.ImgFile)" /></div>
+     }
+    </li>
+    <li>
+ 
+        <fieldset  id = "@item.i" data-role="controlgroup" data-role="fieldcontain">
+     
+         @Html.RadioButtonFor(m => m.ans[item.i], "No Answer", new { @id = "a", @checked = "checked", @class = "def" })
+     
+                @Html.RadioButtonFor(m => m.ans[item.i], @item.value.Option1, new { @id = "b" })
+                <label for="b">@item.value.Option1</label>
+                @Html.RadioButtonFor(m => m.ans[item.i], @item.value.Option2, new { @id = "c" })
+                <label for="c">@item.value.Option2 </label>
+                @Html.RadioButtonFor(m => m.ans[item.i], @item.value.Option3, new { @id = "d" })
+                <label for="d">@item.value.Option3</label>
+                @Html.RadioButtonFor(m => m.ans[item.i], @item.value.Option4, new { @id = "e" })
+                <label for="e">@item.value.Option4</label>
+               </fieldset>
+              
+      <script>
+          (function ($) {
+          
+              var container = $("#"+@item.i);
+              var cbs = container.children("input");
+              var index;
+              var entry;
+              for (index = 0; index < cbs.length; ++index) {
+                  entry = $(cbs[Math.floor(Math.random() * cbs.length)]);
+                  entry.add(entry.next()).appendTo(container);
+                 
+              }
+          })(jQuery);
+  </script>  
+    </li>
+  </ul>  
+ 
+     }
+     </ul>
+ </div>
+ }
+ else
+ {
+
+     <div  class="testcont scrollable">
+
+     @foreach (var res in Model.sec.Select((value, i) => new { i, value }))
+     {
+   
+          <div id="@res.value.SectionName.Replace(" ", "")" class="content_div" name="sections">
+          <span class="sectitle"><strong>@res.value.SectionName.ToUpper()</strong></span>  
+ 
+   <ul data-role="listview" data-inset="true" class="pagination2">
+
+      
+         @foreach (var item in Model.ques.Select((value, i) => new { i, value }))
+         {
+             if (item.value.SectionID == res.value.Section_ID)
+             {
+                   <ul data-role="listview" data-inset="true" >
+
+            <li>
+                  <strong>@Html.Label("Question: ")</strong>
+                  @Html.TextAreaFor(m => item.value.Question1, new { disabled = "true" })
+            </li>
+            <li>
+             @if (item.value.QsImg == true)
+             {
+                <div> <img src="@Url.Content("~/Content/TestImages/" + item.value.ImgFile)" /></div>
+             }
+            </li>
+            <li>
+               <fieldset  id = "@item.i" data-role="controlgroup" data-role="fieldcontain">
+     
+         @Html.RadioButtonFor(m => m.ans[item.i], "No Answer", new { @id = "a", @checked = "checked", @class = "def" })
+     
+                @Html.RadioButtonFor(m => m.ans[item.i], @item.value.Option1, new { @id = "b" })
+                <label for="b">@item.value.Option1</label>
+                @Html.RadioButtonFor(m => m.ans[item.i], @item.value.Option2, new { @id = "c" })
+                <label for="c">@item.value.Option2 </label>
+                @Html.RadioButtonFor(m => m.ans[item.i], @item.value.Option3, new { @id = "d" })
+                <label for="d">@item.value.Option3</label>
+                @Html.RadioButtonFor(m => m.ans[item.i], @item.value.Option4, new { @id = "e" })
+                <label for="e">@item.value.Option4</label>
+               </fieldset>
+               <script>
+                  (function ($) {
+          
+                      var container = $("#"+@item.i);
+                      var cbs = container.children("input");
+                      var index;
+                      var entry;
+                      for (index = 0; index < cbs.length; ++index) {
+                          entry = $(cbs[Math.floor(Math.random() * cbs.length)]);
+                          entry.add(entry.next()).appendTo(container);
+                      }
+                  })(jQuery);
+              </script>
+            </li>
+             
+             </ul>
+             }
+
+         }
+ </ul>
+         
+         </div>
+     }
+</div>
+ }
+
+  
+
+
+}

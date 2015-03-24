@@ -1,0 +1,91 @@
+﻿@model InteractiveLearning.Models.VGraph
+@{
+    ViewBag.Title = "Test Results";
+}
+<style>
+.movie-list thead th,
+.movie-list tbody tr:last-child {
+    border-bottom: 1px solid #d6d6d6; /* non-RGBA fallback */
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    color:#0c5a55;
+}
+.movie-list tbody th,
+.movie-list tbody td {
+    border-bottom: 1px solid #e6e6e6; /* non-RGBA fallback  */
+    border-bottom: 1px solid rgba(0,0,0,.05);
+}
+.movie-list tbody tr:last-child th,
+.movie-list tbody tr:last-child td {
+    border-bottom: 0;
+}
+.movie-list tbody tr:nth-child(odd) td,
+.movie-list tbody tr:nth-child(odd) th {
+    background-color: #eeeeee; /* non-RGBA fallback  */
+    background-color: rgba(0,0,0,.04);
+}
+#datatable
+{
+    width:80%;
+}
+</style>
+ @Html.Partial("Shared_Test1")
+<h2>Index</h2>
+		<script type="text/javascript">
+		    $(function () {
+		        $('#container').highcharts({
+		            data: {
+		                table: document.getElementById('datatable')
+		            },
+		            chart: {
+		                type: 'column'
+		            },
+		            title: {
+		                text: 'Students Performance Graph'
+		            },
+		            yAxis: {
+		                allowDecimals: false,
+		                title: {
+		                    text: 'No.of Students'
+		                }
+		            },
+		            xAxis: {
+		                allowDecimals: false,
+		                title: {
+		                    text: 'Score'
+		                }
+		            },
+		            tooltip: {
+		                formatter: function () {
+		                    return '<b>Score :' + this.x + '</b><br/>' + "<b>Achieved By :" + this.y + 'student</b><br/>';
+		                    
+		                }
+		            }
+		        });
+		    });
+		</script>
+	
+                
+<script src="@Url.Content("~/Scripts/Grade/highcharts.js")"></script>
+<script src="@Url.Content("~/Scripts/Grade/data.js")"></script>
+<script src="@Url.Content("~/Scripts/Grade/exporting.js")"></script>
+<center> <b>Total Number of students appeared in Test:@Model.sum_std</b>
+</center>
+<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+<table id="datatable" data-role="table" data-mode="reflow" class="movie-list ui-responsive" >
+	<thead>
+		<tr>
+			<th style="width:25%">Score</th>
+			<th style="width:25%">No of Students</th>
+		</tr>
+	</thead>
+	<tbody>
+       @for (int i = 0; i < Model.g.Count;i++ )
+       {
+        <tr>
+			<th style="text-align:center">@Model.g[i].key</th>
+			<td style="text-align:center">@Model.g[i].num</td>
+		</tr>
+       }
+	</tbody>
+</table>

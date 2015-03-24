@@ -1,0 +1,27 @@
+﻿@model InteractiveLearning.Models.Result
+@{
+    ViewBag.Title = "Detailed Result";
+}
+<style>
+.greenbck
+{
+    background:#0c5a55;
+    border:1px solid #00544e;
+}
+</style>
+
+<ul data-role="listview" data-inset="true" data-theme="c">
+    <li data-role="list-divider" class="greenbck">Detailed Result</li>
+    @foreach (var item in Model.ques.Select((value, i) => new { i, value }))
+    {
+        <li><strong>@Html.Label("Q: ")</strong></li>
+        <li>@Html.TextAreaFor(m => item.value.Question1, new{disabled="true" })</li>
+        <li>@Html.Label("Your Answer: ")
+      
+       <strong> @Html.Label(Model.ans[item.i])</strong>
+       
+        <br />
+        @Html.Label("Correct Answer: ")
+        <strong>@Html.Label(item.value.CorrectAns)</strong></li>
+    }
+</ul>

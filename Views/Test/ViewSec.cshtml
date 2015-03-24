@@ -1,0 +1,99 @@
+﻿@model InteractiveLearning.Models.EditTest
+@{
+    ViewBag.title = "Sections";
+}
+<style>
+.link1
+{               
+    float:right;
+    display:inline;
+    width:76px;
+    height:26px;
+    top:0px;
+    position:absolute;
+    right:0;
+                  
+}
+.greenbck
+{
+    background:#0c5a55;
+    border:1px solid #00544e;
+}
+ .ui-icon-edit {
+	background-image: url(@Url.Content("~/Content/images/edit.png"));
+	background-size: 18px 18px;
+}
+.ui-icon-del {
+	background-image: url(@Url.Content("~/Content/images/del.png"));
+	background-size: 18px 18px;
+}
+</style>
+ @Html.Partial("Shared_Test1")
+ <p style="text-align:right;">
+  @Html.ActionLink("View Questions", "ViewQues", new { id = Model.s.TestID, sID = Model.s.Section_ID }, new { data_role = "button", data_inline = "true", data_theme = "f", data_mini = "true", data_icon = "search" })
+  @Html.ActionLink("Edit Test", "EditTest", new { id = Model.testId }, new { data_role = "button", data_inline = "true", data_theme = "f", data_mini = "true", data_icon = "edit" ,data_ajax="false"})
+    
+</p>
+
+<p style="color:Red;" id="alert_err"></p>
+
+<ul data-role="listview" data-inset="true">
+<li data-role="list-divider" class="greenbck">Edit Section
+    @using (Html.BeginForm("DeleteSec", "Test", FormMethod.Post, new { @class = "link1", data_ajax = "false" }))
+    {
+            <input id="id" type="hidden" name="id" value="@Model.s.Section_ID" />
+            <button type="submit"  data-role="button"  data-icon="del" data-inline="true" data-iconpos="notext"  data-theme="f" onclick="if(!confirm('This action will remove this section from the test. Would you like to proceed?')){return false;}">Delete Section</button>
+    }
+    </li>
+    @using (Html.BeginForm("UpdateSec", "Test", FormMethod.Post, new {data_ajax = "false" }))
+    {
+       <li>
+          <input id="sid" type="hidden" name="sid" value="@Model.s.Section_ID" />
+          @Html.Label("Section Name: ")
+          <input id="sname" name="sname" value="@Model.s.SectionName" required="true" maxlength="50"/>
+          @Html.Label("Maximum Questions to Display: ")
+          
+          <input type = "number" min = "1" max = "999" validate = "validate" id = "sec_quesCount" name ="sec_quesCount" value="@Model.s.QuesCount"/>
+     
+        </li>
+        <li >
+        <div style="text-align:right;">
+        <button type="submit"  data-role="button"  data-mini="true"   data-inline="true" data-theme="f" data-icon="check" id="btnSubmit" >Update Section Details</button>
+        </div>
+        </li>
+    }
+    </ul>
+
+<script type="text/javascript">
+
+    $("#btnSubmit").live("click", function () {
+
+        var errors = [];
+
+        var title = $("#sname").val();
+        if (!/^[A-Z0-9a-z^*()_+=[\]{}|\\,.?: -#]{3,50}$/.test(title))
+        {
+            errors[errors.length] = "You must enter valid test title.";
+        }
+        if (errors.length > 0) 
+        {
+
+            reportErrors(errors);
+            return false;
+        }
+
+        else
+         {
+            return true;
+        }
+    });
+
+    function reportErrors(errors) {
+        var msg = "Please enter valid data...\n";
+        for (var i = 0; i < errors.length; i++) {
+            var numError = i + 1;
+            msg += "<br/>" + numError + ". " + errors[i];
+            document.getElementById("alert_err").innerHTML = msg;
+        }
+    }  
+    </script>

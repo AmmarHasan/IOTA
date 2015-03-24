@@ -1,0 +1,100 @@
+﻿@model InteractiveLearning.Models.AdminModel
+@{
+    ViewBag.Title = "Import Teachers Data";
+ }
+ <link href="@Url.Content("~/Content/AccountStyle.css")" rel="stylesheet" type="text/css" />
+ <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+<style>
+.field-validation-error
+{
+    color:Red;
+    display:block;
+    text-align:center;
+    } 
+  .warningmessage
+  {
+      color:Red;
+      text-align:center;
+      font-weight:bold;
+      
+  }
+    .greenbck
+{
+    background:#0c5a55;
+    border:1px solid #00544e;
+    
+}
+
+</style>
+
+<div data-role="navbar" class="custom-navbar">
+<ul >
+
+    <li>@Html.ActionLink("My Tests", "../Test/Index", "Test", new { data_ajax = "false"})</li>
+    <li>@Html.ActionLink("Create Test", "../Test/Create", "Test", new { data_ajax = "false" })</li>
+    <li>@Html.ActionLink("Admin", "Index", "Admin", null, new { data_ajax = "false" })</li>
+        
+</ul>
+</div>
+<p style="text-align:right;">@Html.ActionLink("View TEachers List", "ViewTeachers", new { dpt = "", batch ="",sec =""}, new { data_role = "button", data_theme = "f", data_inline = "true", data_mini = "true", data_icon = "search", target = "_blank" }) 
+</p>
+ @using (Html.BeginForm("TeachersData", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", data_ajax = "false" }))
+ {
+       <div id="centerDiv">
+  
+     <ul data-role="listview" data-inset="true">
+       <li data-role="list-divider" class="greenbck">Upload Teachers Record</li>
+
+           
+        <li data-role="fieldcontain">
+             @Html.Label("Select Excel File", new { @class = "dp" })
+            <input  type="file"  id="FileUpload1" name="FileUpload1" accept=".xls,.xlsx"/>
+            <span class="field-validation-error" id="spanfile"></span>
+    
+           </li>
+
+   
+              <li data-role="fieldcontain" >
+         <center> <input type="submit" value="Upload" data-theme="f" data-inline="true" id="btnSubmit" /></center>  
+        </li>
+
+    </ul>
+    </div>
+     var tempval = TempData["fileMessage"];
+     if(tempval.ToString() != "null")
+    {
+    <center> <span class="warningmessage" id="fileAlert">@tempval.ToString()</span> </center>
+     }
+ }
+
+
+  
+   <script type="text/javascript">
+
+       $("#err-btch").hide();
+
+       $("#btnSubmit").live("click", function () {
+        
+           if ($('#FileUpload1').val() == "") {
+               $("#spanfile").html("Please upload file");
+               return false;
+           }
+
+       });
+       jQuery(function ($) {
+
+           $('form').validate({
+               rules: {},
+               messages: {},
+               submitHandler: function () {
+                   return false
+               }
+           });
+           $('input[name="FileUpload1"]').rules('add', {
+               required: true,
+               accept: ".xls,.xlsx"
+           });
+       })
+   </script> 

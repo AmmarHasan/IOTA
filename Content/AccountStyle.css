@@ -1,0 +1,30 @@
+﻿@media (min-width:800px)
+{
+.ui-field-contain input.ui-input-text, .ui-field-contain textarea.ui-input-text, .ui-field-contain .ui-input-search {
+width: 40%;
+display: inline-block;
+}
+.ui-checkbox, .ui-radio {
+position: relative;
+clear: both;
+margin: .2em 0 .5em;
+z-index: 1;
+width: 200px;
+}
+div#centerdiv {
+        width: 600px;
+        text-align: center;
+        margin:0 auto;
+   
+    }
+    div#centerDiv {
+        width: 800px;
+        text-align: center;
+        margin:0 auto;
+   
+    }
+ul[data-role="listview"]
+{
+    width:auto;
+   }
+}

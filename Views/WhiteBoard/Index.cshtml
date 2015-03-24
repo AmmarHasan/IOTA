@@ -1,0 +1,136 @@
+﻿  @{    
+    ViewBag.Title = "WhiteBoard";
+  }
+
+<script src="@Url.Content("~/Scripts/WhiteBoard/Whiteboard.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/WhiteBoard/script.js")" type="text/javascript"></script>
+<link href="@Url.Content("~/Content/WhiteBoard.css")" rel="stylesheet" type="text/css" />
+  
+<style>
+
+input[type="file"]#uploadElement {
+  /* Note: display:none on the input won't trigger the click event in WebKit.
+     Setting visibility to hidden and width 0 works.*/
+  visibility: hidden;
+  width: 0px;
+ position:absolute;
+  height: 0px;
+}
+
+</style>	    
+@using (Html.BeginForm("Back", "WhiteBoard", FormMethod.Post, new { id = "drawingForm" ,data_ajax = "false" }))
+{
+<input type="hidden" name="imageData" id="imageData"/>
+<input id="td" name="cID" type="hidden" value="@ViewBag.testID"/>
+<input id="qd" name="qID" type="hidden" value="@ViewBag.qID"/>
+<input id="sd" name="sId" type="hidden" value="@ViewBag.sID"/>    
+<input id="targetPg" name="targetPg" type="hidden" value="@ViewBag.targetPage"/>    
+<input id="imgOld" name="imgOld" type="hidden"  value="@ViewBag.imgData"/>    
+    
+     
+<div  style="float:left;"><input type="button" id="btnSave" value="Save Drawing" data-role="button" data-mini="true"  data-inline="true" data-theme="f"/>
+</div>
+}
+
+   
+@using (Html.BeginForm("Cancel", "WhiteBoard", FormMethod.Post, new { data_ajax = "false" }))
+{
+         <div  style="float:right;"><input type="submit"   value="Cancel" data-role="button" data-mini="true"  data-inline="true" data-theme="f"/>
+
+</div>
+<input  name="cD" type="hidden" value="@ViewBag.testID"/>
+<input  name="qD" type="hidden" value="@ViewBag.qID"/>
+<input  name="sD" type="hidden" value="@ViewBag.sID"/>
+<input id="tPg" name="tPg" type="hidden" value="@ViewBag.targetPage"/>    
+ 
+}         
+     
+            			
+<div class="ui-grid-a" style="position:relative;margin:0;padding:0;clear:both;">
+
+<div class="ui-block-a">
+    	<ul class="social" id="jquery">
+			<li class="line" id="line">
+				<span><strong>Line</strong></span>
+			</li>
+			<li class="circle" id="circle">
+				<span><strong>Circle</strong></span>
+			</li>
+			<li class="rect" id="rect">
+				<span><strong>Rectangle</strong></span>
+			</li>
+			<li class="text" id="text">
+				<span><strong>Text</strong></span>
+			</li>
+			<li class="ellipse" id="ellipse">
+				<span><strong>Ellipse</strong></span>
+			</li>
+			<li class="erase" id="erase">
+				<span><strong>Eraser</strong></span>
+			</li>
+			<li class="clear" id="clear">
+				<span><strong>Clear Board</strong></span>
+			</li>
+			<li class="pencil" id="pencil">
+				<span><strong>Pencil</strong></span>
+			</li>
+             <li  class="upload" id="upload">
+                 <input type="file" id="uploadElement" accept="image/*"/>
+                 <span><strong>Upload</strong></span>
+			</li>
+                   <li  class="save" id="save">
+                  <span><strong>Save</strong></span>
+			</li>
+
+             <li class="color" id="color">
+				<span><strong>Color</strong></span>
+                  </li>
+                  
+      
+		</ul>
+        <div class ="tools">
+			
+             
+                        <ul class="cols">
+                        <li class="blue"></li>
+                        <li class="green"></li>
+                        <li class="black"></li>
+                   
+                        <li class="orange"></li>
+                        <li class="purple"></li>
+                        <li class="red"></li>
+                          
+                        </ul>
+                  </div>
+ 
+</div>
+	<div class="ui-block-b" id="container">
+    
+  <canvas id="imageView" width="100" height="100" border="0"></canvas>
+   
+    </div>
+	
+</div><!-- /grid-a -->
+    
+    
+ <script>
+
+
+     function click(el) {
+         // Simulate click on the element.
+         var evt = document.createEvent('Event');
+         evt.initEvent('click', true, true);
+         el.dispatchEvent(evt);
+     }
+
+     document.querySelector('#upload').addEventListener('click', function (e) {
+         var fileInput = document.querySelector('#uploadElement');
+         //click(fileInput); // Simulate the click with a custom event.
+         fileInput.click(); // Or, use the native click() of the file input.
+     }, false);
+
+     function handleFiles(files) {
+         alert('Well done!');
+     }
+
+</script>		              

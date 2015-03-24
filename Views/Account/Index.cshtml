@@ -1,0 +1,17 @@
+﻿@model  InteractiveLearning.Models.LoginModel
+
+
+@section Header {
+    @Html.ActionLink("Back", "Index", "Home", null, new { data_icon = "arrow-l", data_rel = "back" })
+   
+}
+
+<p>
+    Logged in as <strong>@User.Identity.Name</strong>.
+</p>
+
+<ul data-role="listview" data-inset="true">
+    <li>@Html.ActionLink("Change password", "ChangePassword", null, new { data_ajax = "false" })</li>
+    <li>@Html.ActionLink("Change Picture", "ChangePicture", null, new { data_ajax = "false" })</li>
+    <li>@Html.ActionLink("Log off", "LogOff", null, new{data_ajax="false" })</li>
+</ul>

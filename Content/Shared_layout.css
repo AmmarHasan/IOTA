@@ -1,0 +1,122 @@
+﻿div.util img
+{
+    width:24px;
+    height:24px;}
+div.utilbar
+{
+  position:absolute;
+  z-index:9999;
+  top:53px;
+  right:0px;
+
+    }
+    .ui-content {
+border-width: 0;
+overflow: visible;
+overflow-x: hidden;
+margin-top: 1em;
+}
+    
+
+div.util 
+{
+   position: relative;
+    width: 24px;
+    height: 24px;
+    right: 0px;
+    padding-right: 10px;
+    display:inline-block;
+  
+}
+
+
+.notification-counter {   
+    position: absolute;
+    top: -8px;
+    left: 12px;
+    
+    background-color: rgba(212, 19, 13, 1);
+    color: #fff;
+    border-radius: 3px;
+    padding: 1px 3px;
+    font: 12px "Century Gothic";
+    
+    
+}
+
+.menuu {
+    background: url("@Url.Content("~/Content/menu/smico.png")") no-repeat center left 0px;
+    padding-left: 0px; 
+
+}
+div.util img:hover
+{
+ -webkit-transition-property: -webkit-transform;
+  -webkit-transform: rotate(360deg)  scale(1.5,1.5); 
+  -webkit-transition-timing-function: ease-in-out;
+  -webkit-transition-duration: 0.2s; 
+
+  -moz-transition-property: -moz-transform;
+  -moz-transform: rotate(360deg)  scale(1.5,1.5); 
+  -moz-transition-timing-function: ease-in-out;
+  -moz-transition-duration: 0.2s; 
+
+  -o-transition-property: -o-transform;
+  -o-transform: rotate(360deg)  scale(1.5,1.5); 
+  -o-transition-timing-function: ease-in-out;
+  -o-transition-duration: 0.2s; 
+
+  -ms-transition-property: -ms-transform;
+  -ms-transform: rotate(360deg)  scale(1.5,1.5); 
+  -ms-transition-timing-function: ease-in-out;
+  -ms-transition-duration: 0.2s; 
+}
+
+ .noti_bubble 
+ {
+     
+top: 195px;
+right: 12px;
+padding: 1px 2px 1px 2px;
+position: absolute;
+width:16px;
+height:16px;
+background-color: rgba(212, 19, 13, 1);
+color: #fff;
+border-radius: 10px;
+font: 12px "Century Gothic";
+font-weight: bold;
+text-align:center;
+ 
+        }
+ 
+
+.box-shadow-menu {
+
+  width:90px;
+  height:30px;
+  border-radius:1em;
+
+}
+.box-shadow-menu:before {
+  content: "";
+  position: absolute;
+  left: 0.15em;
+  top: 0.20em;
+  font-size:1.75em;
+  width: 1em;
+  height: 0.15em;
+  background:#fff;
+  box-shadow: 
+    0 0.25em 0 0 #fff,
+    0 0.5em 0 0 #fff;
+}
+.box-shadow-menu:after {
+  content: "Menu";
+  position: absolute;
+  right: 0.275em;
+  top: 0.15em;
+  font-size:1.15em;
+  font-weight:bold;
+  font-family:"Century Gothic";
+}

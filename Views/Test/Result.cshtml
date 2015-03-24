@@ -1,0 +1,22 @@
+﻿@model InteractiveLearning.Models.Result
+@{
+    ViewBag.Title = "Result";
+}
+<style>
+ .greenbck
+{
+    background:#0c5a55;
+    border:1px solid #00544e;
+}
+
+</style>
+
+<ul data-role="listview" data-inset="true">
+    <li data-role="list-divider" class="greenbck">Result</li>
+    <li data-role="fieldcontain">@Html.Label("Test Title: ")@Model.t.Title</li>
+    <li data-role="fieldcontain">@Html.Label("Total Questions: ")@Model.noQ</li>
+    <li data-role="fieldcontain">@Html.Label("You Scored: ")@Model.gr.Score</li>
+</ul>
+@*@Html.Partial("AnswerSheet", Model)*@
+ 
+<div style="text-align:right;">@Html.ActionLink("OK", "Index", null, new { data_role = "button", data_inline = "true", data_theme = "f", data_mini = "true", data_icon = "check" })</div>

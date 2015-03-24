@@ -1,0 +1,22 @@
+﻿   @model IList<InteractiveLearning.Notification>
+    @if((Model!=null)&&(Model.Count != 0))
+    {
+  <ul data-role="listview" data-inset="true" >
+    
+    @foreach (var item in Model)
+    {
+ 
+        <li>    
+          <p style="text-align:right;"><strong>@item.Date.Value.ToLocalTime()</strong></p>
+         
+                 <textarea disabled>@Html.DisplayFor(modelItem => item.Message)</textarea>
+               
+
+           
+          <p  style="text-align:right;padding:5px;">
+          @Html.ActionLink("Delete", "Delete", "Alert", new { id = item.ID }, new {data_role="button",data_icon="delete",data_theme ="f",data_mini="true",data_inline="true" })
+          </p>
+            </li>
+     }
+</ul>
+    }

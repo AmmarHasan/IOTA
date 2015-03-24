@@ -1,0 +1,24 @@
+﻿@model InteractiveLearning.Models.CreateTest
+@{
+    ViewBag.Title = "Add Question For Sections";
+}
+
+<style>
+.df
+{
+    margin-bottom:30px;
+    margin-top:0px;
+}
+.greenbck
+{
+    background:#0c5a55;
+    border:1px solid #00544e;
+}
+</style>
+ @Html.Partial("Shared_Test1")
+<ul data-role="listview" data-inset="true">
+@foreach (var item in Model.section)
+{
+    <li>@Html.ActionLink(item.SectionName, "AddQuestion", new { cID = item.TestID, num = 0, sID = item.Section_ID, imgdata = "" }, new { data_ajax="false" })</li>
+}
+</ul>

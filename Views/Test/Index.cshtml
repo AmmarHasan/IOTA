@@ -1,0 +1,117 @@
+﻿@model InteractiveLearning.Models.ViewTest
+<style>
+.df
+{
+    margin-bottom:30px;
+    margin-top:0px;
+ }
+ .movie-list thead th,
+.movie-list tbody tr:last-child {
+    border-bottom: 1px solid #d6d6d6; /* non-RGBA fallback */
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    color:#0c5a55;
+}
+.movie-list tbody th,
+.movie-list tbody td {
+    border-bottom: 1px solid #e6e6e6; /* non-RGBA fallback  */
+    border-bottom: 1px solid rgba(0,0,0,.05);
+}
+.movie-list tbody tr:last-child th,
+.movie-list tbody tr:last-child td {
+    border-bottom: 0;
+}
+.movie-list tbody tr:nth-child(odd) td,
+.movie-list tbody tr:nth-child(odd) th {
+    background-color: #eeeeee; /* non-RGBA fallback  */
+    background-color: rgba(0,0,0,.04);
+}
+#movie-table-custom
+{
+    width:100%;
+}
+
+</style>
+<div data-role="navbar" class="custom-navbar">
+<ul >
+ @if (Model.type == "Student")
+ {
+    <li>@Html.ActionLink("Results", "Index", "Grades")</li>
+    <li>@Html.ActionLink("Select Test", "Take", "Test", new { data_ajax = "false" })</li>
+    
+ }
+    @if (Model.type == "Teacher")
+    {
+    <li>@Html.ActionLink("My Tests", "Index", "Test", new { data_ajax = "false", @class = "ui-btn-active" })</li>
+    <li>@Html.ActionLink("Create Test", "Create", "Test", new { data_ajax = "false" })</li>
+    <li>@Html.ActionLink("Admin", "Index", "Admin", null, new { data_ajax = "false" })</li>
+        
+    }
+</ul>
+</div>
+
+@if (TempData["editTest"] != null)
+{
+      <script>          alert("@TempData["editTest"]");
+      </script>
+}
+<table data-role="table" id="movie-table-custom" data-mode="reflow" class="movie-list ui-responsive" style="clear: both;">
+  <thead>
+    <tr>
+      <th data-priority="1" style="width:40%">Test</th>
+      <th data-priority="2" style="width:10%">Preview</th>
+      <th data-priority="2" style="width:10%">Status</th>
+      <th data-priority="3" style="width:20%"></th>
+    
+    </tr>
+  </thead>
+  <tbody>
+
+    @for (int i = 0; i < Model.test.Count; i++)
+    {
+          <tr>
+          <td style="text-align:center">@Html.ActionLink(Model.test[i].Title, "EditTest", new { id = Model.test[i].TestID }, new { data_ajax = "false" })
+          </td>
+          <td>
+          @Html.ActionLink("Preview", "TakingTest", new { id = Model.test[i].TestID }, new { data_role = "button", data_mini = "true", data_inline = "true", data_theme = "f", data_icon = "search", data_ajax = "false", target = "blank" }) 
+         
+          </td>
+          <td>	
+          @Html.Label(Model.test[i].Status, new { data_inline = "true", data_mini = "true" })
+          </td>
+          
+	      <td>
+          @Html.ActionLink("Change Status", "ChangeStatus", new { id = Model.test[i].TestID }, new { data_role = "button", data_mini = "true", data_inline = "true", data_theme = "f", data_icon = "check", data_ajax = "false" }) 
+         </td>
+         </tr>
+    }
+   </tbody>
+   </table>
+
+ 
+@*  @foreach (var item in Model.test.Select((value, i) => new { i, value }))
+   {
+       using (@Html.BeginForm("ChangeStatus", "Test", FormMethod.Post, new { data_ajax = "false" }))
+      {
+          <tr>
+          <td style="text-align:center">@Html.ActionLink(item.value.Title, "EditTest", new { id = item.value.TestID }, new { data_ajax = "false" })
+          </td>
+          <td>	
+          @Html.DropDownListFor( m => m.stat,new SelectList(
+                 new List<object> {
+                           new { value = "Published" , text = "Published" },
+                           new { value = "Saved" , text = "Saved" },
+                        },
+                      "value",
+                       "text", item.value.Status), new {id=@item.i, name=@item.i, data_inline = "true", data_mini = "true" })
+          </td>
+                 
+	      <td>
+          <input id="id" type="hidden" name="id" value="@item.value.TestID" />   
+          <button type="submit" data-role="button" data-mini="true" data-inline="true" data-theme="f" data-icon="check">Update Status</button>
+          </td>
+          </tr>
+      }
+   }
+   </tbody>
+   </table>
+*@

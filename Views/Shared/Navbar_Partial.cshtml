@@ -1,0 +1,9 @@
+﻿<div data-role="navbar" class="custom-navbar">
+<ul  >
+    <li>@Html.ActionLink("Grades", "Index", "Grades")</li>
+    
+    <li>@Html.ActionLink("My Tests", "Index", "Test", new { data_ajax = "false", @class="ui-btn-active" })</li>
+    <li>@Html.ActionLink("Give Test", "Take", "Test", new { data_ajax = "false" })</li>
+    <li>@Html.ActionLink("Create Test", "Create", "Test", new { data_ajax =  "false" })</li>
+</ul>
+</div>

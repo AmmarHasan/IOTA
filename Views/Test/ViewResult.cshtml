@@ -1,0 +1,117 @@
+﻿@model InteractiveLearning.Models.VResult
+@{
+    ViewBag.Title = "Test Results";
+}
+<style>
+ .alignleft {
+	float: left;
+	text-shadow:none;
+	font-size:14px;
+	font-weight:bold;
+}
+.alignright {
+	float: right;
+	text-shadow:none;
+	font-size:14px;
+	font-weight:bold;
+}   
+.greenbck
+{
+    background:#0c5a55;
+    border:1px solid #00544e;
+}
+
+.movie-list thead th,
+.movie-list tbody tr:last-child {
+    border-bottom: 1px solid #d6d6d6; /* non-RGBA fallback */
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    color:#0c5a55;
+}
+.movie-list tbody th,
+.movie-list tbody td {
+    border-bottom: 1px solid #e6e6e6; /* non-RGBA fallback  */
+    border-bottom: 1px solid rgba(0,0,0,.05);
+}
+.movie-list tbody tr:last-child th,
+.movie-list tbody tr:last-child td {
+    border-bottom: 0;
+}
+.movie-list tbody tr:nth-child(odd) td,
+.movie-list tbody tr:nth-child(odd) th {
+    background-color: #eeeeee; /* non-RGBA fallback  */
+    background-color: rgba(0,0,0,.04);
+}
+#movie-table-custom
+{
+    width:80%;
+}
+</style>
+ @Html.Partial("Shared_Test1")
+<p style="text-align:right;">@Html.ActionLink("View Graph", "ViewGraph", new { id = Model.testID }, new { data_role = "button", data_theme = "f", data_inline = "true", data_mini = "true", data_icon = "search", target = "_blank" }) 
+@Html.ActionLink("Save as Excel", "SaveExcel", new { id = Model.testID }, new { data_role = "button", data_theme = "f", data_inline = "true", data_mini = "true", data_icon = "arrow-d",data_ajax="false"}) 
+<button data-role="button" data-inline="true" id="print_res" data-ajax="false" data-theme="f" data-mini="true">Print</button>
+</p>
+<div id="print_div">
+<center><h3>@Model.title</h3></center>   
+   <div id="textbox" style="clear: both;"  class="greenbck">
+    <p class="alignleft">Total Students: @Model.g.Count</p>
+    <p class="alignright">Out of : @Model.outof</p>
+    </div>
+      
+
+<table data-role="table" id="movie-table-custom" data-mode="reflow" class="movie-list ui-responsive" style="clear: both;">
+  <thead>
+    <tr>
+      <th data-priority="1" style="width:10%">S.No</th>
+      <th data-priority="2" style="width:10%">@Html.Label("Roll No")</th>
+      <th data-priority="3" style="width:20%">@Html.Label("Enrollment No")</th>
+    
+      <th data-priority="4" style="width:25%">@Html.Label("Name")</th>
+      
+      <th data-priority="5" style="width:10%">@Html.Label("Score ")</th>
+      <th data-priority="6" style="width:25%">@Html.Label("Date ")</th>
+     </tr>
+  </thead>
+  <tbody>
+   @foreach (var item in Model.g.Select((value, i) => new { i, value }))
+   {
+       
+      if (item.value.User_Details.Roll_No != null)
+      {
+         <tr>
+      <td style="text-align:center">@Html.Label(item.i.ToString())</td>
+      
+      <td style="text-align:center">@Html.Label(item.value.User_Details.Roll_No)</td>
+      <td style="text-align:left">@Html.Label(item.value.User_Details.Enrollment)</td>
+    
+      <td style="text-align:left">@Html.Label(item.value.User_Details.UserName)</td>
+      <td style="text-align:center">@item.value.Score</td>
+      <td style="text-align:left">@item.value.Date.Value.ToLocalTime()</td>
+    </tr>
+      }
+   }
+   </tbody>
+   </table>
+</div>
+   <div style="text-align:right;">@Html.ActionLink("OK", "Index", null, new { data_role = "button", data_inline = "true", data_theme = "f" ,data_mini="true",data_icon="check"})</div>
+   <script language="javascript" type="text/javascript">
+       $("#print_res").live("click", function () {
+           //Get the HTML of div
+           var divElements = document.getElementById('print_div').innerHTML;
+           //Get the HTML of whole page
+           var oldPage = document.body.innerHTML;
+
+           //Reset the page's HTML with div's HTML only
+           document.body.innerHTML =
+              "<html><head><title></title></head><body>" +
+              divElements + "</body>";
+
+           //Print Page
+           window.print();
+
+           //Restore orignal HTML
+           document.body.innerHTML = oldPage;
+
+
+       });
+    </script>

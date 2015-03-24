@@ -1,0 +1,203 @@
+﻿#arrows-container
+{
+    position:relative;
+    margin-top:10px;
+    text-align:center;
+    }
+#arrows-container p{
+	
+    text-decoration:none;
+    text-align:center;
+    text-shadow:none;
+    font-size:32px;
+    display:inline;
+    font-weight:bold;
+    font-family:Sans-Serif;
+    color:#038f86;
+    	cursor:pointer;
+}
+
+#sp{
+	
+    text-decoration:none;
+    text-align:center;
+    text-shadow:none;
+    font-size:22px;
+    
+    font-weight:bold;
+    font-family:Sans-Serif;
+    color:#038f86;
+    	
+}
+#arrows-container a.deck-prev-link{
+	
+
+}
+ #arrows-container a.deck-next-link{
+	
+}
+
+/* SOCIAL ICONS - GENERAL */
+.social { list-style:none; position: relative;padding:0;margin-left:3px;margin-right:0px;}
+.social li { display:block; float:left; background-repeat:no-repeat;}
+.social li span { display:block;height:32px; position:relative; text-decoration:none;cursor:pointer; }
+.social li span strong { font-weight:normal; position:absolute;left:10px; top:-1px; color:#fff; padding:3px; z-index:9999;
+ text-shadow:1px 1px 0 rgba(0, 0, 0, 0.75); background-color:rgba(0, 0, 0, 0.7);
+ -moz-border-radius:3px; -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); -webkit-border-radius:3px; -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); border-radius:3px; box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+li
+{
+width: 100%;
+height: auto;
+
+}
+
+li.line {
+ background-image:url("WhiteBoard/line.png"); 
+}
+li.pencil { background-image:url("WhiteBoard/pencil.png"); }
+li.circle { background-image:url("WhiteBoard/circle.png");}
+li.text { background-image:url("WhiteBoard/text.png");}
+li.ellipse{ background-image:url("WhiteBoard/ellipse.png"); }
+li.rect { background-image:url("WhiteBoard/rect.png"); }
+li.erase { background-image:url("WhiteBoard/eraser.png"); }
+li.clear { background-image:url("WhiteBoard/clear.png");}
+li.upload { background-image:url("WhiteBoard/upload.png");}
+li.save { background-image:url("WhiteBoard/save.png");}
+
+li.color { background-color:black;width:30px;
+           margin-top:20px;
+           border:1px solid #000;
+           border-radius : 5px;
+           height:auto;
+           }
+
+.cols li.black{  background-color:black; margin-right:5px;
+  
+          
+           }
+
+.cols li.blue{  background-color:blue; margin-right:5px;
+       
+           }
+           
+ .cols li.red{  background-color:red; margin-right:5px;
+         
+           }
+.cols li.purple
+            {  background-color:purple; margin-right:5px;
+          
+           }
+ .cols li.yellow{  background-color:Yellow;
+                    margin-right:5px;
+         
+           }
+ .cols li.green{  background-color:Green; margin-right:5px;
+          
+           }
+.cols li.orange{  background-color:Orange;
+                  margin-right:5px;
+                
+           }
+
+ul.cols 
+{
+
+padding:2px;
+padding-left:50px;
+width:auto;
+margin-top:295px;
+margin-left:20px;
+background:rgba(0,0,0,0.3);
+z-index:999;
+ height:39px;
+ position:absolute;
+ display:none;
+}
+ul.cols > li
+{
+list-style-type : none;
+border:1px solid #000;
+border-radius : 5px;
+display: inline;
+padding-right: 25px;
+padding-bottom:15px;
+
+ }
+
+ #mypanel {
+    margin     : 0;
+    padding    : 0;
+    width      : 0;
+    left       : 0;
+    position:absolute;
+ }
+   
+   .toolbox
+   {
+       float:left;
+       width:auto;
+       margin-left:30px;
+       padding:0px;
+      
+       
+   }
+    #container
+    {
+  position:relative;
+   border: 1px Solid Black;
+   float:right;
+   padding:0px;
+   width:82%;
+   z-index:2;
+   height:500px;
+      background:transperent;
+  /* -webkit-background-size: cover;
+-moz-background-size: cover;
+-o-background-size: cover;
+background-size: 100% 100%;*/
+border:10px solid #513716;
+border-radius:30px;
+box-shadow:2px 2px 2px 2px rgba(0,0,0,0.8);
+
+  
+      }
+ 
+      
+         #imgPres
+    {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        width: 100%;
+        height:100%;
+        border:0;
+        z-index: -1;
+  
+      }
+
+       #imageTemp
+    {
+       position: absolute;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        width: 100%;
+      
+     border:0;
+  
+    }
+    #imageView
+    {
+       width: 100%;
+  
+ 
+  
+ }
+   #dtool
+      {
+          text-align :center;
+      }
+

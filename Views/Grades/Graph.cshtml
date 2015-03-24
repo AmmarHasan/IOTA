@@ -1,0 +1,103 @@
+﻿@model InteractiveLearning.Models.Grades
+
+@{
+    ViewBag.Title = "Graph";
+}
+
+<style>
+.movie-list thead th,
+.movie-list tbody tr:last-child {
+    border-bottom: 1px solid #d6d6d6; /* non-RGBA fallback */
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    color:#0c5a55;
+}
+.movie-list tbody th,
+.movie-list tbody td {
+    border-bottom: 1px solid #e6e6e6; /* non-RGBA fallback  */
+    border-bottom: 1px solid rgba(0,0,0,.05);
+}
+.movie-list tbody tr:last-child th,
+.movie-list tbody tr:last-child td {
+    border-bottom: 0;
+}
+.movie-list tbody tr:nth-child(odd) td,
+.movie-list tbody tr:nth-child(odd) th {
+    background-color: #eeeeee; /* non-RGBA fallback  */
+    background-color: rgba(0,0,0,.04);
+}
+#datatable
+{
+    width:80%;
+}
+</style>    
+
+		<script type="text/javascript">
+		    $(function () {
+		        $('#container').highcharts({
+		            data: {
+		                table: document.getElementById('datatable')
+		            },
+		            chart: {
+		                type: 'column'
+		            },
+		            title: {
+		                text: 'Tests Performance'
+		            },
+		            yAxis: {
+		                allowDecimals: false,
+		                title: {
+		                    text: 'Units'
+		                }
+		            },
+		            tooltip: {
+		                formatter: function () {
+		                    return '<b>' + this.series.name + '</b><br/>' +
+                    this.y + ' ' + this.x.toLowerCase();
+		                }
+		            }
+		        });
+		    });
+		</script>
+	
+                
+<script src="@Url.Content("~/Scripts/Grade/highcharts.js")"></script>
+<script src="@Url.Content("~/Scripts/Grade/data.js")"></script>
+<script src="@Url.Content("~/Scripts/Grade/exporting.js")"></script>
+<div data-role="navbar" class="custom-navbar">
+<ul >
+     @if (Model.type == "Student")
+     {
+   
+    <li>@Html.ActionLink("Results", "Index")</li>
+    <li>@Html.ActionLink("Select Test", "../Test/Take", new { data_ajax = "false" })</li>
+     }
+  
+    @if (Model.type == "Teacher")
+    {
+    <li>@Html.ActionLink("My Tests", "../Test/Index", new { data_ajax = "false" })</li>
+    <li>@Html.ActionLink("Create Test", "../Test/Create", new { data_ajax = "false" })</li>
+    <li>@Html.ActionLink("Admin", "Index", "Admin", null, new { data_ajax = "false" })</li>
+        
+   
+    }
+</ul>
+</div>
+<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+<table id="datatable" data-role="table" data-mode="reflow" class="movie-list ui-responsive" >
+	<thead>
+		<tr>
+			<th style="width:25%">Title</th>
+			<th style="width:25%">Score</th>
+		</tr>
+	</thead>
+	<tbody>
+     
+    @foreach (var item in Model.g)
+    {
+		<tr>
+			<th>@item.Title</th>
+			<td>@item.Score</td>
+		</tr>
+    }
+	</tbody>
+</table>

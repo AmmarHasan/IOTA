@@ -1,0 +1,375 @@
+﻿
+@model InteractiveLearning.Models.RegisterModel
+
+
+<link href="@Url.Content("~/Content/AccountStyle.css")" rel="stylesheet" type="text/css" />
+
+
+<style>
+.field-validation-error
+{
+    color:Red;
+    display:block;
+    text-align:center;
+    } 
+#alert_err
+{
+    color:Red;
+    display:block;
+    font-weight:bold;
+    } 
+             
+fieldset.ui-controlgroup {
+margin-left: 1em;
+display:inline;
+
+zoom: 1;
+}    
+    .greenbck
+{
+    background:#0c5a55;
+    border:1px solid #00544e;
+    
+}
+
+  .bdy
+  {
+      background:Green;
+  }
+   .user {
+    background: url('../Content/images/user.png') no-repeat center left 5px;
+    padding-left: 50px; 
+}
+
+ .email {
+    background: url('../Content/images/email.png') no-repeat center left 5px;
+    padding-left: 50px; /* depends on width of envelope image */
+}
+
+.password {
+    background: url('../Content/images/password.png') no-repeat center left 5px;
+    padding-left: 50px; /* depends on width of envelope image */
+}
+
+.gender {
+    background: url('../Content/images/gender.png') no-repeat center left 5px;
+    padding-left: 50px; /* depends on width of envelope image */
+}
+
+
+.country {
+    background: url('../Content/images/globe.png') no-repeat center left 5px;
+    padding-left: 50px; /* depends on width of envelope image */
+}
+
+.question {
+    background: url('../Content/images/Question.png') no-repeat center left 5px;
+    padding-left: 50px; /* depends on width of envelope image */
+}
+.textformat 
+{
+  font-weight:normal;
+  padding-left:50px;
+  font-size: 16px;
+line-height: 1.4;
+vertical-align:top; 
+
+   }
+.textformatt 
+{
+  margin-right:2px;
+ 
+   }
+      
+#datepicker
+{
+    margin-left:250px;
+    }
+</style>
+
+
+
+
+
+<p id="alert_err">
+    Passwords must be at least @Membership.MinRequiredPasswordLength characters long.
+</p>
+
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { data_ajax = "false" }))
+{
+    @Html.ValidationSummary(true, "Account creation was unsuccessful. Please correct the errors and try again.")
+   
+   <div id="centerDiv">
+    <ul data-role="listview" data-inset="true">
+       <li data-role="list-divider" class="greenbck">Registration Information</li>
+
+           <li data-role="fieldcontain">
+              @Html.LabelFor(m=>m.accounttype,new {@class="textformat"})
+               <fieldset data-role="controlgroup"  >
+            
+                @Html.RadioButtonFor(m => m.accounttype, "Student", new { @id = "c", @checked = "checked" })
+                <label for="c">Student</label>
+                 @Html.RadioButtonFor(m => m.accounttype,"Teacher", new { @id = "b"})
+                <label for="b">Teacher</label>
+             
+                </fieldset>
+
+                
+            </li>
+            <li data-role="fieldcontain">
+            @Html.LabelFor(m => m.dept, new { @class = "textformat" })
+            @Html.DropDownListFor(m => m.dept, Model.Departments, new {data_inline = "true" })
+
+           
+           </li>
+
+           <li data-role="fieldcontain"  id="rn">
+            @Html.LabelFor(m => m.rollno,new { @class = "textformat" })
+            @Html.TextBoxFor(m => m.rollno, new { placeholder = "For e.g CE-005", pattern = "[A-Z]{2}[/-][0-9]{3}" })
+            <span class="field-validation-error" id="err-rollno">Roll Number is required</span> 
+        
+           
+           </li>
+
+            <li data-role="fieldcontain"  id="pno">
+            @Html.LabelFor(m => m.pers,new { @class = "textformat" })
+            @Html.TextBoxFor(m => m.pers, new { type="number",max="9999" })
+            <span class="field-validation-error" id="err-persno">Personal Number is required</span> 
+        
+           
+           </li>
+
+           <li data-role="fieldcontain" id = "btch">
+      
+           @Html.LabelFor(m=>m.batch , new { @class = "textformat" })            
+           @Html.TextBoxFor(m => m.batch, new { placeholder = "For e.g : 2010-2011", pattern = "[0-9]{4}[/-][0-9]{4}"})
+           <span class="field-validation-error" id="err-btch">Batch field is required</span> 
+           </li>
+
+
+            <li data-role="fieldcontain" id="enr">
+      
+    	    
+               @Html.LabelFor(m=>m.enroll, new { @class = "textformat" })
+            
+                @Html.TextBoxFor(m => m.enroll, new { placeholder = "NED/****/**-**", pattern = "[/N][/E][/D][//][0-9]{4}[//][0-9]{2}[/-][0-9]{2}",readOnly ="true" })
+               <span class="field-validation-error" id="err-enrol">Enrollment Number is required</span> 
+        
+                </li>
+               
+  
+        <li data-role="fieldcontain">
+            @Html.LabelFor(m => m.UserName, new {@class = "user" })
+            @Html.TextBoxFor(m => m.UserName, new { placeholder = "Login", readOnly ="true"})            
+        </li>
+
+        <li data-role="fieldcontain">
+            @Html.LabelFor(m => m.Email, new { @class = "email" })
+            @Html.TextBoxFor(m=> m.Email,new { placeholder = "example@gmail.com",type="email",required ="true"}) 
+            <span class="field-validation-error" id="err-email">Special characters are not allowed in e-mail address</span>
+            <span class="field-validation-error" id="alert-err"></span> 
+       
+        </li>
+      
+        <li data-role="fieldcontain">
+            @Html.LabelFor(m => m.Password, new { @class = "password" })
+            @Html.PasswordFor(m => m.Password, new { required = "true" })            
+        </li>
+
+        <li data-role="fieldcontain">
+            @Html.LabelFor(m => m.ConfirmPassword,new { @class = "password" })
+            @Html.PasswordFor(m => m.ConfirmPassword)            
+        </li>  
+
+        
+        <li data-role="fieldcontain">
+               @Html.LabelFor(m => m.PasswordQuestion, new { @class = "question" })
+              @Html.DropDownListFor(m => m.PasswordQuestion, new SelectList(new List<object> { "What was the name of your elementary / primary school?", "What is your oldest sibling's middle name?", "What is the name of your favorite childhood friend?", "Where were you when you first heard about 9/11?", "Who was your childhood hero?", "What is your favorite color?", "What is your address, phone number?", "What is your oldest cousin's first and last name?", "In what city or town was your first job?", "What was the name of your first stuffed animal?", "What is your mother's middle name?", "In what city and country do you want to retire? ", "What is your current car registration number?", "What is your pet's name?", "What was your favorite sport in high school?", "What is the title and author of your favorite book?", "In what city were you born?" }), new { data_inline = "true",data_ajax="false" })
+         
+       
+        </li>
+
+        
+          <li data-role="fieldcontain">
+
+               @Html.LabelFor(m => m.PasswordAnswer,new { @class = "question" })
+            
+                @Html.PasswordFor(m => m.PasswordAnswer, new { maxlength = "32", required = "true" })
+                @Html.ValidationMessageFor(m => m.PasswordAnswer)
+            </li>
+            
+              <li data-role="fieldcontain" >
+         <center> <input type="submit" value="Register" data-theme="f" data-inline="true" /></center>  
+        </li>
+    </ul>
+    
+    </div>
+    
+}
+
+
+<script type="text/javascript">
+    var val = "Student";
+    $("#err-btch").hide();
+    $("#err-enrol").hide();
+    $("#err-rollno").hide();
+    $("#err-persno").hide();
+    $("#alert-err").hide();
+    $("#pno").hide();
+            
+    $("#Email").live("focus", function () {
+        $("#err-email").show();
+    });
+    $("#Email").live("blur", function () {
+        $("#err-email").hide();
+    });
+   
+       
+    $("input[type='radio']").bind("change", function (event, ui) {
+        val = $(this).attr("value");
+        if (val == "Student") {
+            $("#enr").show();
+            $("#btch").show();
+            $("#rn").show();
+            $("#pno").hide();
+            $("#UserName").text("");
+            $("#UserName").attr("readOnly", true);
+          
+        }
+        else {
+            $("#enr").hide();
+            $("#btch").hide();
+            $("#rn").hide();
+            $("#pno").show();
+            $("#UserName").text("");
+            
+            $("#UserName").attr("readOnly",true);
+            
+
+        }
+    });
+
+    $('form').on('submit', function () {
+        var enr = $("#enroll").val();
+        var pno = $("#pers").val();
+
+        var btch = $("#batch").val();
+        //check email
+        var email = $("#Email").val();
+        var errors = [];
+
+        if (!/^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+            errors[errors.length] = "You must enter a valid email address.";
+        }
+        if (errors.length > 0) {
+
+            reportErrors(errors);
+            return false;
+        }
+        else
+            $("#alert-err").hide();
+   
+        if ($("#UserName").val() == "Not found" && val == "Student") {
+            document.getElementById("alert_err").innerHTML = "Sorry your Enrollment Number and record not found<br/>contact Database Administrator,recheck your roll-no,batch and department selection."
+            $("#alert-err").show();
+
+            return false;
+        }
+
+        if ($("#UserName").val() == "Not found" && val == "Teacher") {
+            document.getElementById("alert_err").innerHTML = "Sorry your Personal Number and record not found<br/>contact Database Administrator,recheck your Pers-no and department selection."
+            $("#alert-err").show();
+
+            return false;
+        }
+        // check validation
+        if ((val == "Student" && enr == "") || (val == "Student" && btch == "")) {
+            if (enr == "")
+                $("#err-enrol").show();
+            if (btch == "")
+                $("#err-btch").show();
+
+            return false;
+        }
+
+        else if (val == "Teacher" && pno == "") {
+            return false;
+        }
+
+
+
+        function reportErrors(errors) {
+            var msg;
+            for (var i = 0; i < errors.length; i++) {
+                var numError = i + 1;
+                msg = errors[i];
+                document.getElementById("alert-err").innerHTML = msg;
+                $("#alert-err").show();
+
+            }
+        }
+    });
+
+
+   
+
+    $("#dept,#batch,#rollno").change(function () {
+        var deptt = $("#dept").val();
+        var rollnoo = $("#rollno").val();
+        var batchh = $("#batch").val();
+        if (deptt != "" && rollnoo != "" && batchh != "")
+        {
+        var options = {};
+          options.url = '../Account/detail?dept='+deptt+'&rollno='+rollnoo+'&batch='+batchh,
+        
+        options.type = "POST";
+        options.dataType = "json";
+        options.contentType = "application/json";
+        options.success =  function (data) {
+            $("#enroll").val(data.enrno);
+                                    $("#UserName").val(data.Std_name);
+            },
+            options.error =  function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve student details.');
+            };
+
+
+        
+        $.ajax(options);
+
+        }
+
+});
+
+
+
+
+$("#pers").change(function () {
+    var deptt = $("#dept").val();
+    var pers = $("#pers").val().toString();
+    if (deptt != "" && pers != "") {
+        var options = {};
+        options.url = '../Account/teacherdata?dept=' + deptt + '&persno=' + pers,
+
+        options.type = "POST";
+        options.dataType = "json";
+        options.contentType = "application/json";
+        options.success = function (data) {
+            $("#UserName").val(data);
+        },
+            options.error = function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to retrieve Teacher details.');
+            };
+
+
+
+        $.ajax(options);
+
+    }
+
+});
+</script> 

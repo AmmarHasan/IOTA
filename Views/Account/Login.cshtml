@@ -1,0 +1,130 @@
+﻿@model InteractiveLearning.Models.LoginModel
+@{
+    ViewBag.Title = "IOTA";
+}
+<link href="@Url.Content("~/Content/AccountStyle.css")" rel="stylesheet" type="text/css" />
+@section Header {
+ 
+  
+}
+
+
+
+
+<style>
+   .field-validation-error
+{
+    color:Red;
+    display:block;
+    text-align:center;
+    }   
+ 
+ .footer
+ {
+     font-style:italic;
+     color:Gray;
+    }   
+ .a {
+ border-radius:10px 10px;
+ } 
+ 
+  .user {
+    background: url('../Content/images/user.png') no-repeat center left 5px;
+    padding-left: 50px; 
+}
+
+ 
+
+.password {
+    background: url('../Content/images/password.png') no-repeat center left 5px;
+    padding-left: 50px; /* depends on width of envelope image */
+}
+.classa
+{
+  background:Green;
+  position:absolute;
+  margin:0px 0px;
+  width:1000px;
+  height:1000px;
+}
+  .greenbck
+{
+    background:#0c5a55;
+    border:1px solid #00544e;
+    
+}
+
+</style>
+<div align="middle">
+<img src="@Url.Content("~/Content/images/Picture_new.png")" />
+
+</div>
+
+  @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { data_ajax = "false" }))
+{
+    @Html.ValidationSummary()
+    <div id="centerdiv">
+    <ul data-role="listview" data-inset="true">
+        <li data-role="list-divider" class="greenbck">Log In</li>
+        
+        <li data-role="fieldcontain">
+            @Html.LabelFor(m => m.UserName, new { @class = "user" })
+            @Html.TextBoxFor(m => m.UserName)    
+            <span class="field-validation-error" id="err-userID">Email Address</span> 
+             
+        </li>
+
+        <li data-role="fieldcontain">
+            @Html.LabelFor(m => m.Password, new { @class = "password" })
+            @Html.PasswordFor(m => m.Password)            
+        </li>
+        <li data-role="fieldcontain" style="height:40px;" >
+            <div style="float:left;">
+                @Html.LabelFor(m => m.RememberMe, new { @class = "remm" })
+                @Html.CheckBoxFor(m => m.RememberMe)
+                </div>
+                
+                    <div style="float: right; padding-top:10px;">@Html.ActionLink("Forget Password", "PasswordReset", null, new { data_theme = "f", data_ajax = "false" })</div>
+                </li>
+
+        <li>
+   
+      
+        
+<fieldset class="ui-grid-a">
+
+  <div  style="float:left;"><button type="submit" data-theme="f">Login</button></div>
+  <div style="float:right">@Html.ActionLink("Register", "Register", null, new{ data_role="button", data_theme="f",  data_ajax = "false" })</div>	   
+</fieldset>
+
+        
+        </li>
+
+
+     
+       
+    </ul>
+    </div>
+
+
+  <div align="center">
+        <h3 style="color:#0c5a55"><strong>Powered by: Center for Software Research & Development (CSRD)</strong></h3>
+        </div>
+
+    
+    
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".csrd").css("display", "none");
+    });
+    $("#err-u serID").hide();
+ 
+    $("#UserName").live("focus", function () {
+        $("#err-userID").show();
+    });
+    $("#UserName").live("blur", function () {
+        $("#err-userID").hide();
+    }); 
+</script>

@@ -1,0 +1,84 @@
+﻿@model InteractiveLearning.Models.Grades
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<style>
+<style>
+.greenbck
+{
+    background:#0c5a55;
+    border:1px solid #00544e;
+}
+
+.movie-list thead th,
+.movie-list tbody tr:last-child {
+    border-bottom: 1px solid #d6d6d6; /* non-RGBA fallback */
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    color:#0c5a55;
+}
+.movie-list tbody th,
+.movie-list tbody td {
+    border-bottom: 1px solid #e6e6e6; /* non-RGBA fallback  */
+    border-bottom: 1px solid rgba(0,0,0,.05);
+}
+.movie-list tbody tr:last-child th,
+.movie-list tbody tr:last-child td {
+    border-bottom: 0;
+}
+.movie-list tbody tr:nth-child(odd) td,
+.movie-list tbody tr:nth-child(odd) th {
+    background-color: #eeeeee; /* non-RGBA fallback  */
+    background-color: rgba(0,0,0,.04);
+}
+#movie-table-custom
+{
+    width:80%;
+}
+</style>
+<div data-role="navbar" class="custom-navbar">
+<ul >
+     @if (Model.type == "Student")
+     {
+   
+    <li>@Html.ActionLink("Results", "Index", new { @class = "ui-btn-active" })</li>
+    <li>@Html.ActionLink("Select Test", "../Test/Take", new { data_ajax = "false" })</li>
+     }
+  
+    @if (Model.type == "Teacher")
+    {
+    <li>@Html.ActionLink("My Tests", "../Test/Index", new { data_ajax = "false" })</li>
+    <li>@Html.ActionLink("Create Test", "../Test/Create", new { data_ajax = "false" })</li>
+    <li>@Html.ActionLink("Admin", "Index", "Admin", null, new { data_ajax = "false" })</li>
+        
+   
+    }
+</ul>
+</div>
+ <p style="text-align:right;">@Html.ActionLink("View Graph", "Graph", null, new { data_role = "button", data_theme = "f", data_inline = "true", data_mini = "true", data_icon = "search", target = "_blank" })</p> 
+ 
+<table data-role="table" id="movie-table-custom" data-mode="reflow" class="movie-list">
+  <thead>
+    <tr>
+      <th data-priority="1" style="width:20%;">Test Title</th>
+      <th data-priority="2" style="width:20%;">Date</th>
+      <th data-priority="3" style="width:20%;">Score</th>
+      <th data-priority="4" style="width:20%;">Out Of</th>
+      @*<th data-priority="5" style="width:20%;">Percentage</th>*@
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (var item in Model.g.Select((value, i) => new { i, value }))
+    {
+		<tr>
+			<td style="text-align:center;">@item.value.Title</td>
+            <td style="text-align:center;">@item.value.Date.Value.ToLocalTime()</td>
+            <td style="text-align:center;">@item.value.Score</td>
+            <td style="text-align:center;">@item.value.OutOf</td>
+	    	@*<td style="text-align:center;" class="title">@item.Grade_Details.Description.Substring(0,1)</td>*@
+            @*<td style="text-align:center;" class="title">@Model.per[item.i]</td>*@
+    	</tr>
+    }
+	</tbody>
+</table>

@@ -1,0 +1,237 @@
+﻿@model InteractiveLearning.Models.CreateTest
+
+@{
+    ViewBag.Title = "Create Test";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+       $('.tag').autocomplete(
+       {
+          source:'@Url.Action("TagSearch", "Test")'
+
+        });
+    })
+</script>
+
+<style>
+.field-validation-error
+{
+    color:Red;
+    display:block;
+    text-align:center;
+    }     
+  .greenbck
+{
+    background:#0c5a55;
+    border:1px solid #00544e;
+}
+.in
+{
+    display:inline;
+}
+.ui-autocomplete{
+  position: absolute;
+  background: rgb(255,255,255); /* Old browsers */
+background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(241,241,241,1) 50%, rgba(225,225,225,1) 51%, rgba(246,246,246,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(50%,rgba(241,241,241,1)), color-stop(51%,rgba(225,225,225,1)), color-stop(100%,rgba(246,246,246,1))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(241,241,241,1) 50%,rgba(225,225,225,1) 51%,rgba(246,246,246,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(241,241,241,1) 50%,rgba(225,225,225,1) 51%,rgba(246,246,246,1) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(241,241,241,1) 50%,rgba(225,225,225,1) 51%,rgba(246,246,246,1) 100%); /* IE10+ */
+background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(241,241,241,1) 50%,rgba(225,225,225,1) 51%,rgba(246,246,246,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f6f6f6',GradientType=0 ); /* IE6-9 */
+
+  border: solid 1px #DDDDDD;
+  float: left;
+  list-style: none;
+  margin: 0;
+  padding: 2px;
+}
+.ui-autocomplete .ui-menu-item {
+  clear: left;
+  float: left;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+.ui-autocomplete .ui-menu-item a {
+  display: block;
+  line-height: 1.5;
+  padding: 0.2em 0.4em;
+  text-decoration: none;
+  color: black;
+  font-family: Helvetica,Arial,sans-serif;
+}
+</style>
+<div data-role="navbar" class="custom-navbar">
+<ul >
+ 
+    <li>@Html.ActionLink("My Tests", "Index", "Test", new { data_ajax = "false"})</li>
+    <li>@Html.ActionLink("Create Test", "Create", "Test", new { data_ajax = "false" ,@class = "ui-btn-active" })</li>
+    <li>@Html.ActionLink("Admin", "Index", "Admin", null, new { data_ajax = "false" })</li>
+        
+ 
+</ul>
+</div>
+
+@using (@Html.BeginForm("Create", "Test", FormMethod.Post, new { data_ajax = "false" }))
+{
+    <input type="hidden" name="Cid" value="@ViewBag.courseid" />
+     <input type="hidden" name="secPrivacy" id="secPrivacy" value="@Model.sections" />
+   
+    @Html.ValidationSummary(true)
+       <ul data-role="listview" data-inset="true">
+       <li data-role="list-divider" class="greenbck">Test Details</li>
+  <li>
+        @Html.Label("Title: ")
+        @Html.TextBoxFor(m => m.test.Title, new { required = "true" })
+   </li>
+   <li>
+        @Html.Label("Description: ")
+        @Html.TextAreaFor(m => m.test.Description, new { required = "true" })
+    </li>
+   <li>
+        @Html.Label("Topic: ")
+        @Html.TextBoxFor(m => m.test.Course.Name, new { @class = "tag" })
+        @Html.HiddenFor(m => m.test.Course.ID)
+ 
+   </li>
+   <li>
+        @Html.Label("No of Sections(max 5): ")
+        @Html.TextBoxFor(m => m.noS, new { type = "number", min = "1", max = "5", validate = "validate", @id = "sect" })
+   </li>
+   <li>
+        @Html.Label("No of Question Per Page : ")
+        @Html.TextBoxFor(m => m.test.QuesPerPage, new {placeholder="Enter 0 to list all questions in a single page" ,type = "number", min = "0", max = "5", validate = "validate", @id = "qsperpage" })
+   </li>
+   <li>
+        @Html.Label("Total no of Questions to Display : ")
+        @Html.TextBoxFor(m => m.test.MaxQuestion, new {type = "number", min = "1", validate = "validate" })
+   </li>
+   <li>
+        @Html.Label("Time Based: ")
+        <fieldset data-role="controlgroup" data-type="horizontal" data-role="fieldcontain"  >
+        @Html.RadioButtonFor(m => m.test.Time, false, new { @id = "tim", @class = "radiofortime" })<label for="tim">No</label>
+        @Html.RadioButtonFor(m => m.test.Time, true, new { @checked = "checked", @id = "ti", @class = "radiofortime" })<label for="ti">Yes</label>
+      </fieldset>
+   </li>
+   <li id="max">
+        @Html.Label("Max Time(in minutes): ")
+        @Html.TextBoxFor(m => m.test.MaxTime, new { type = "number", min = "1", max="320" ,validate = "validate" })
+   </li>
+
+   <li>
+        @Html.LabelFor(m => m.isopen, new { data_inline = "true" })
+           <fieldset data-role="controlgroup" data-type="horizontal" data-role="fieldcontain"  >
+        @Html.RadioButtonFor(m => m.isopen, false, new { @id = "opn", @class = "radioforopn", @checked = "checked" })<label for="opn">No</label>
+        @Html.RadioButtonFor(m => m.isopen, true, new { @id = "opnn", @class = "radioforopn" })<label for="opnn">Yes</label>
+      </fieldset>    
+   </li>
+
+
+        <li data-role="fieldcontain" id = "btch">
+      
+        @Html.LabelFor(m => m.test.Batch, new { @class = "textformat" })            
+        @Html.TextBoxFor(m => m.test.Batch, new { placeholder = "For e.g : 2010-2011", pattern = "[0-9]{4}[/-][0-9]{4}" })
+        <span class="field-validation-error" id="err-btch">Batch field is required</span> 
+        </li>
+        <li data-role="fieldcontain" id = "deptlist">
+            @Html.LabelFor(m => m.test.Department, new { @class = "country" })
+            @Html.DropDownListFor(m => m.test.Department, Model.Departments, new { data_inline = "true" })
+
+           
+       </li>
+       <li data-role="fieldcontain" id = "seclist">
+            <fieldset data-role="controlgroup">
+					<legend>Choose Sections:</legend>
+					<input type="checkbox" name="checkbox-1a" id="checkbox-1a" checked class="custom" value="A"/>
+					<label for="checkbox-1a">A</label>
+
+					<input type="checkbox" name="checkbox-2a" id="checkbox-2a" checked class="custom" value="B"/>
+					<label for="checkbox-2a">B</label>
+					
+					<input type="checkbox" name="checkbox-3a" id="checkbox-3a" checked class="custom" value="C"/>
+					<label for="checkbox-3a">C</label>
+
+					<input type="checkbox" name="checkbox-4a" id="checkbox-4a" checked class="custom" value="D"/>
+					<label for="checkbox-4a">D</label>
+			    </fieldset>
+           
+       </li>
+   <li>
+        <div  style="text-align:right;"><input type="submit" value="Create Test" data-role="button" data-mini="true" data-inline="true" data-theme="f"/>
+        </div>
+   </li>
+   </ul>
+}
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    var val = "False";
+    var val_t = "True";
+   
+    $("#err-btch").hide();
+  
+    $(".radioforopn").bind("change", function (event, ui) {
+        val = $(this).attr("value");
+        if (val == "False") {
+            $("#deptlist").show();
+            $("#btch").show();
+            $("#seclist").show();
+            
+        }
+        else {
+            $("#deptlist").hide();
+            $("#btch").hide();
+            $("#seclist").hide();
+         
+
+        }
+    });
+
+
+
+    $(".radiofortime").bind("change", function (event, ui) {
+        val_t = $(this).attr("value");
+        if (val_t == "True") {
+            $("#max").show();
+           
+        }
+        else {
+            $("#max").hide();
+            
+
+        }
+    });
+
+    $('form').on('submit', function () {
+        var btch = $("#test_Batch").val();
+        var boxes = document.getElementsByClassName('custom');
+        var checked = [];
+        for (var i = 0; boxes[i]; ++i) {
+            if (boxes[i].checked) {
+                checked.push(boxes[i].value);
+            }
+        }
+
+        var checkedStr = checked.join();
+      
+        $("#secPrivacy").val(checkedStr.toString());
+        // check validation
+        if (val == "False" && btch == "") {
+                $("#err-btch").show();
+
+            return false;
+        }
+
+
+        else {
+            return true;
+        }
+    });
+</script>
